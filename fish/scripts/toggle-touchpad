@@ -1,0 +1,13 @@
+#!/bin/bash
+# https://askubuntu.com/a/813612
+
+touchpad_id=`xinput --list | sed -n '/Touchpad/s/.\+id=\([0-9]\+\).\+/\1/p'`  # 11 here
+touchpad_enabled=`xinput list-props $touchpad_id | sed -n '/Device Enabled/s/.\+:\s*\(.\+\)/\1/p'`
+
+xinput_commands=(enable disable)
+xinput ${xinput_commands[$touchpad_enabled]} $touchpad_id
+
+papirus_home=/usr/share/icons/Papirus/48x48/status/
+notify_icons=(input-touchpad-on.svg input-touchpad-off.svg)
+notify_summary=('觸控板開啟' '觸控板關閉')
+notify-send -u low -i $papirus_home${notify_icons[$touchpad_enabled]} ${notify_summary[$touchpad_enabled]}

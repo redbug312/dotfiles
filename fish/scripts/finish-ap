@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo sed -i '/^unmanaged-devices=/d' /etc/NetworkManager/NetworkManager.conf
+sudo systemctl restart NetworkManager

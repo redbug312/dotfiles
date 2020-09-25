@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+SYNCTHING=$HOME/.local/bin/syncthing
+LOGFILE=$HOME/syncthing.log
+
+if [ ! -f ${LOGFILE}.tmp ]; then
+    env GOMAXPROCS=4 $SYNCTHING -no-browser -logfile=${LOGFILE}.tmp
+    mv ${LOGFILE}.tmp $LOGFILE
+fi

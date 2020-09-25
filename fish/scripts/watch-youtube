@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+fmt=`echo $1 | sed 's|&.\+$||' | xargs -i youtube-dl -F {} | sed -ne '/best/s|\s.\+||p'`
+url=`echo $1 | sed 's|&.\+$||' | xargs -i youtube-dl -g -f$fmt {}`
+
+if [ -n "$url" ]; then
+    parole $url > /tmp/watch-youtube.log 2> /tmp/watch-youtube.err
+else
+    zenity --error --title='watch-youtube' --text="無法播放影片" --width=80
+fi

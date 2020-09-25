@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+icon=/usr/share/icons/Papirus/48x48/apps/media-player-48.svg
+
+cmus-remote "$@"
+cmus-remote -C 'format_print %t' | xargs -d\\n notify-send -u low -t 5000 -i $icon
