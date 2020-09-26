@@ -25,6 +25,7 @@ elinks/cookies
 elinks/globhist
 elinks/gotohist
 fish/fishd.*
+git/local/config
 nvim/nerdtree
-nvim/plugged
+nvim/plugged/
 vifm/vifminfo

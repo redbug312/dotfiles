@@ -1,35 +1,29 @@
-[user]
-    name = RedBug312
-    email = redbug312@gmail.com
-[color]
-    branch = auto
-    diff = auto
-    log = auto
-    status = auto
+[include]
+    path = ./local/config
+[core]
+    editor = nvim
+    excludesfile = ./gitignore
+    quotepath = false
+[init]
+    templatedir = ./template
 [alias]
+    b = branch
+    c = checkout
+    s = status
     amend = commit --amend
     assume = update-index --assume-unchanged
     assumed = !git ls-files -v | grep ^h | cut -c 3-
     cached = !git difftool --cached $(git difftool --name-only --cached --diff-filter=ACMR)
-    import = pull origin HEAD --allow-unrelated-histories
     modified = !git difftool -- $(git difftool --name-only -- --diff-filter=ACMR)
     tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
     unassume = update-index --no-assume-unchanged
     undo = reset HEAD~1 --soft
-    s = status
-    c = checkout
-    b = branch
+[diff]
+    tool = vimdiff
 [merge]
     tool = vimdiff
+    ff = false
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
     cmd = nvim -d $LOCAL $REMOTE -c '$wincmd w'
-[diff]
-    tool = vimdiff
-[core]
-    editor = nvim
-    excludesfile = ~/.config/git/gitignore
-	quotepath = false
-[init]
-    templatedir = ~/.config/git/template
