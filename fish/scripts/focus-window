@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# https://askubuntu.com/a/562191
+
+app=$1
+workspace=$(wmctrl -d | grep '\*' | cut -d' ' -f1)
+targets=$(wmctrl -lx | grep -i $app | grep " $workspace " | cut -c-10)
+
+if [ -z $targets ]; then
+    echo "Application window $app not found"
+    exit 1
+fi
+
+recently=$(xprop -root _NET_CLIENT_LIST_STACKING | sed -ne 's|.\+#|,|' -e 's|, 0x| 0x0|gp' | tac -s' ')
+
+for candidate in $recently; do
+    if echo $targets | grep -q $candidate; then
+        # wmctrl -lx | grep $candidate  # debug
+        wmctrl -ia $candidate
+        exit 0
+    fi
+done
