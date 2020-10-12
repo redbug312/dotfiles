@@ -14,21 +14,18 @@ nmap     <F10> <Plug>(GitGutterPreviewHunk)
 noremap  ^ 0
 noremap  0 ^
 noremap  - $
-" nnoremap ; :
-" vnoremap ; :<C-w>
+vnoremap u <NOP>
 vnoremap / <Esc>/\%V
-nnoremap Q q:
+nnoremap Q <NOP>
 nnoremap Y y$
 nnoremap K i<CR><Esc>k$
 nnoremap <C-c> <C-a>
-vnoremap u <NOP>
-inoremap <C-w> <C-\><C-O>db
+inoremap <C-w> <C-\><C-O>dB
+inoremap <C-h> <C-\><C-O>db
 
 " VIEWING (LEADER)
-let mapleader = "\<Space>"
 nnoremap <Leader>a  :FSSplitRight<CR>
-nnoremap <Leader>c  :call <SID>PrintSynStack()<CR>
-nnoremap <Leader>d  :!dict <C-R><C-W><CR>
+nnoremap <Leader>c  :call<SID>PrintSynStack()<CR>
 nnoremap <Leader>h  :NERDTreeToggle<CR>
 nnoremap <Leader>j  :cclose\|pclose\|lclose<CR>
 nnoremap <Leader>k  :buffers<CR>
@@ -52,9 +49,9 @@ nmap     [l <Plug>(ale_previous_wrap)zz
 nmap     ]l <Plug>(ale_next_wrap)zz
 nmap     [g <Plug>(GitGutterPrevHunk)zz
 nmap     ]g <Plug>(GitGutterNextHunk)zz
-nnoremap [b :bprevious<CR>
+nnoremap [b :bprev<CR>
 nnoremap ]b :bnext<CR>
-nnoremap [t :tprevious<CR>
+nnoremap [t :tprev<CR>
 nnoremap ]t :tnext<CR>
 
 " TEXT-OBJECTS-MOTIONS (G)
@@ -71,10 +68,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-" inoremap <C-h> <ESC><C-w>h
-" inoremap <C-j> <ESC><C-w>j
-" inoremap <C-k> <ESC><C-w>k
-" inoremap <C-l> <ESC><C-w>l
 vnoremap <C-h> <gv
 vnoremap <C-j> xp`[V`]
 vnoremap <C-k> xkP`[V`]
@@ -84,13 +77,6 @@ vnoremap <C-l> >gv
 cnoremap w!! w !sudo tee % >/dev/null
 cnoremap <C-_> <CR>:%s`<C-r>/``gc<LEFT><LEFT><LEFT>
 cnoremap <C-c> <Esc>
-
-" TERMINAL-MODE
-" tnoremap <C-h> <C-\><C-n><C-w>h
-" tnoremap <C-j> <C-\><C-n><C-w>j
-" tnoremap <C-k> <C-\><C-n><C-w>k
-" tnoremap <C-l> <C-\><C-n><C-w>l
-" tnoremap <Esc> <C-\><C-n>
 
 " INSERT-MODE (COMMA)
 nnoremap ,, <Esc>:let<Space>@/="⚑"<CR>ncl
@@ -106,11 +92,6 @@ inoremap ,] <Right>
 inoremap ,< <C-d>
 inoremap ,> <C-t>
 
-" autocmd FileType markdown let b:lexima_disabled = 1
-" autocmd FileType markdown inoremap ( ()⚑<LEFT><LEFT>
-" autocmd FileType markdown inoremap [ []⚑<LEFT><LEFT>
-" autocmd FileType markdown inoremap { {}⚑<LEFT><LEFT>
-
 autocmd Filetype markdown inoremap ,b   <C-g>u****⚑<Esc>F*hi<C-g>u
 autocmd Filetype markdown inoremap ,m   <C-g>u$$⚑<Esc>F$i<C-g>u
 autocmd Filetype markdown inoremap ,i   <C-g>u<i></i>⚑<Esc>2T>i<C-g>u
@@ -118,12 +99,14 @@ autocmd Filetype markdown inoremap ,a   <C-g>u[](⚑)⚑<Esc>F[a<C-g>u
 autocmd Filetype markdown inoremap ,sub <C-g>u<sub></sub>⚑<Esc>2T>i<C-g>u
 autocmd Filetype markdown inoremap ,sup <C-g>u<sup></sup>⚑<Esc>2T>i<C-g>u
 autocmd Filetype markdown inoremap ,env <C-g>u\begin{}⚑\end{⚑}⚑<Esc>2F}i<C-g>u
+autocmd Filetype markdown inoremap ,def <C-g>u<dl><CR><dt></dt><CR><dd>⚑</dd><CR></dl><Esc>2kf>a<C-g>u
+autocmd Filetype markdown inoremap ,det <C-g>u<details><CR><summary></summary><CR>⚑<CR></details><Esc>2kf>a<C-g>u
 
-autocmd Filetype rust inoremap ,print <C-g>uprintln!("{:?}", );⚑<Esc>F)i<C-g>u
+autocmd Filetype rust       inoremap ,print <C-g>uprintln!("{:?}", );⚑<Esc>F)i<C-g>u
 autocmd Filetype javascript inoremap ,print <C-g>uconsole.log();⚑<Esc>F)i<C-g>u
 
-" FUNCTIONS
-function! <SID>PrintSynStack()
+" SCRIPTS
+function! s:PrintSynStack()
     if !exists("*synstack")
         return
     endif
@@ -139,7 +122,7 @@ function! <SID>PrintSynStack()
     endif
 endfunc
 
-function! <SID>ToggleColorColumn()
+function! s:ToggleColorColumn()
     if !exists("&colorcolumn")
         return
     endif
@@ -150,7 +133,7 @@ function! <SID>ToggleColorColumn()
     endif
 endfunc
 
-function! <SID>ToggleSignColumn()
+function! s:ToggleSignColumn()
     if !exists("&signcolumn")
         return
     endif
