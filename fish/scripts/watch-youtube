@@ -1,10 +1,18 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-fmt=`echo $1 | sed 's|&.\+$||' | xargs -i youtube-dl -F {} | sed -ne '/best/s|\s.\+||p'`
-url=`echo $1 | sed 's|&.\+$||' | xargs -i youtube-dl -g -f$fmt {}`
+usage() {
+    echo Usage: $(basename $0) URL
+    exit 1
+}
+[ $# -ne 1 ] && usage
 
-if [ -n "$url" ]; then
-    parole $url > /tmp/watch-youtube.log 2> /tmp/watch-youtube.err
+url=$1
+
+format=$(echo $url | sed 's|&.\+$||' | xargs youtube-dl -F | sed -ne '/best/s|\s.\+||p')  # usually 22
+stream=$(echo $url | sed 's|&.\+$||' | xargs youtube-dl -g -f $format)
+
+if [ -n "$stream" ]; then
+    parole $stream > /tmp/watch-youtube.log 2> /tmp/watch-youtube.err
 else
-    zenity --error --title='watch-youtube' --text="無法播放影片" --width=80
+    zenity --error --title='watch-youtube' --text='無法播放影片' --width=80
 fi
