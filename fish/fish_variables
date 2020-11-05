@@ -4,8 +4,10 @@ SETUVAR __fish_classic_git_prompt_initialized:\x1d
 SETUVAR __fish_init_2_39_8:\x1d
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_initialized:3100
+SETUVAR _fish_abbr_ag:rg
 SETUVAR _fish_abbr_fatal:journalctl\x20\x2db\x20\x2d1
 SETUVAR _fish_abbr_goose:ssh\x20\x2dY\x20redbug312\x40\x24SERVER_GOOSE
+SETUVAR _fish_abbr_grep:rg
 SETUVAR _fish_abbr_linux4:ssh\x20\x2dY\x20b04902073\x40\x24SERVER_LINUX4
 SETUVAR _fish_abbr_open:xdg\x2dopen
 SETUVAR _fish_abbr_ptt:ssh\x20bbsu\x40ptt\x2ecc
