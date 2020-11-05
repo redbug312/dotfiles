@@ -3,10 +3,10 @@ let mapleader = "\<Space>"
 " SHORTCUTS
 nnoremap <F3>  :let @+ = expand('%:p')<CR>:echo 'Copied: '.expand('%:p')<CR>
 nnoremap <F4>  :execute "!git blame -L".min([line('$')-8,max([line('.')-4,1])]).",+9 %"<CR>
-nnoremap <F5>  :wa<CR>:make build FILE=%<CR>
-nnoremap <F6>  :wa<CR>:make start FILE=%<CR>
-nnoremap <F7>  :wa<CR>:make debug FILE=%<CR>
-nnoremap <F8>  :wa<CR>:make test  FILE=%<CR>
+nnoremap <F5>  :wa<CR>:make build<CR>
+nnoremap <F6>  :wa<CR>:make start<CR>
+nnoremap <F7>  :wa<CR>:make debug<CR>
+nnoremap <F8>  :wa<CR>:make check<CR>
 nnoremap <F9>  :vsplit term://fish<CR>A
 nmap     <F10> <Plug>(GitGutterPreviewHunk)
 
