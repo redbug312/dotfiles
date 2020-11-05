@@ -101,8 +101,9 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Unknown'  : '?', }
 
 Plug 'majutsushi/tagbar'
-Plug 'tenfyzhong/tagbar-markdown.vim'
+Plug 'lvht/tagbar-markdown'
 let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
 
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
