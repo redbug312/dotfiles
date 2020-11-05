@@ -4,3 +4,6 @@
 
 .stfolder
 .stignore
+
+.ninja_deps
+.ninja_log

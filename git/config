@@ -1,11 +1,11 @@
 [include]
-    path = ./local/config
+    path = ~/.config/git/local/config
 [core]
     editor = nvim
-    excludesfile = ./gitignore
+    excludesfile = ~/.config/git/gitignore
     quotepath = false
 [init]
-    templatedir = ./template
+    templatedir = ~/.config/git/template
 [alias]
     b = branch
     c = checkout
