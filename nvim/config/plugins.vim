@@ -14,10 +14,9 @@ Plug 'w0rp/ale'
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '×'
 let g:ale_sign_warning = '△'
-" let g:ale_python_flake8_options = '--ignore E127,E221,E501,E731'
-let g:ale_python_flake8_options = '--ignore E501,E221,E241,E272'
 let g:ale_c_gcc_options = '-Iinclude'
-let g:ale_javascript_eslint_executable = '~/.local/share/npm/bin/eslint'
+let g:ale_c_parse_makefile = 1
+let g:ale_python_flake8_options = '--ignore E501,E221,E241,E272'
 let g:ale_pattern_options = {'\.java$': {'ale_enabled': 0}}
 let g:ale_rust_cargo_check_tests = 1
 
