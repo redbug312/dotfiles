@@ -10,9 +10,13 @@ url=$1
 
 format=$(echo $url | sed 's|&.\+$||' | xargs youtube-dl -F | sed -ne '/best/s|\s.\+||p')  # usually 22
 stream=$(echo $url | sed 's|&.\+$||' | xargs youtube-dl -g -f $format)
+vtitle=$(echo $url | sed 's|&.\+$||' | xargs youtube-dl -e)
 
-if [ -n "$stream" ]; then
-    parole $stream > /tmp/watch-youtube.log 2> /tmp/watch-youtube.err
-else
+if [ -z "$stream" ]; then
     zenity --error --title='watch-youtube' --text='無法播放影片' --width=80
+    echo Failed fetching video stream url
+    exit 1
 fi
+
+echo Playing: $vtitle
+parole $stream > /tmp/watch-youtube.log 2> /tmp/watch-youtube.err
