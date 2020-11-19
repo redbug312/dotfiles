@@ -10,7 +10,7 @@ file=$1
 repo=/home/redbug312/.local/src/reveal.js
 
 if [ -n "$file" ]; then
-    readlink -f "$file" | xargs -I@ ln -sf @ $repo/presentation.md
+    readlink -f "$file" | xargs -I@ ln -sf @ $repo/slides.md
 fi
 
 cd $repo && npm start
