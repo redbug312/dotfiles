@@ -28,4 +28,5 @@ fish/fishd.*
 git/local/config
 nvim/nerdtree
 nvim/plugged/
+vifm/vifm-help.txt
 vifm/vifminfo
