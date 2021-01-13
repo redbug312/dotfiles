@@ -19,6 +19,8 @@
     untracked = ls-files --others --exclude-standard
 [diff]
     tool = vimdiff
+[pull]
+    ff = true
 [merge]
     tool = vimdiff
     ff = false
