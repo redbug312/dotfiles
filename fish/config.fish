@@ -1,4 +1,4 @@
-if test $TERM = linux
+if test "$TERM" = linux
     set -gx LANG C
 end
 
