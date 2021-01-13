@@ -20,7 +20,7 @@ nnoremap Q <NOP>
 nnoremap Y y$
 nnoremap K i<CR><Esc>k$
 nnoremap <C-c> <C-a>
-inoremap <C-w> <C-\><C-O>dB
+inoremap <C-w> <C-\><C-O>db
 inoremap <C-h> <C-\><C-O>db
 
 " VIEWING (LEADER)
@@ -92,18 +92,21 @@ inoremap ,] <Right>
 inoremap ,< <C-d>
 inoremap ,> <C-t>
 
-autocmd Filetype markdown inoremap ,b   <C-g>u****⚑<Esc>F*hi<C-g>u
-autocmd Filetype markdown inoremap ,m   <C-g>u$$⚑<Esc>F$i<C-g>u
-autocmd Filetype markdown inoremap ,i   <C-g>u<i></i>⚑<Esc>2T>i<C-g>u
-autocmd Filetype markdown inoremap ,a   <C-g>u[](⚑)⚑<Esc>F[a<C-g>u
-autocmd Filetype markdown inoremap ,sub <C-g>u<sub></sub>⚑<Esc>2T>i<C-g>u
-autocmd Filetype markdown inoremap ,sup <C-g>u<sup></sup>⚑<Esc>2T>i<C-g>u
-autocmd Filetype markdown inoremap ,env <C-g>u\begin{}⚑\end{⚑}⚑<Esc>2F}i<C-g>u
-autocmd Filetype markdown inoremap ,def <C-g>u<dl><CR><dt></dt><CR><dd>⚑</dd><CR></dl><Esc>2kf>a<C-g>u
-autocmd Filetype markdown inoremap ,det <C-g>u<details><CR><summary></summary><CR>⚑<CR></details><Esc>2kf>a<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,b   <C-g>u****⚑<Esc>F*hi<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,m   <C-g>u$$⚑<Esc>F$i<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,i   <C-g>u<i></i>⚑<Esc>2T>i<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,a   <C-g>u[](⚑)⚑<Esc>F[a<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,sub <C-g>u<sub></sub>⚑<Esc>2T>i<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,sup <C-g>u<sup></sup>⚑<Esc>2T>i<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,env <C-g>u\begin{}⚑\end{⚑}⚑<Esc>2F}i<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,def <C-g>u<dl><CR><dt></dt><CR><dd>⚑</dd><CR></dl><Esc>2kf>a<C-g>u
+autocmd Filetype markdown inoremap <buffer> ,det <C-g>u<details><CR><summary></summary><CR>⚑<CR></details><Esc>2kf>a<C-g>u
 
-autocmd Filetype rust       inoremap ,print <C-g>uprintln!("{:?}", );⚑<Esc>F)i<C-g>u
-autocmd Filetype javascript inoremap ,print <C-g>uconsole.log();⚑<Esc>F)i<C-g>u
+autocmd Filetype markdown inoremap <buffer> <TAB>   <C-t>
+autocmd Filetype markdown inoremap <buffer> <S-TAB> <C-d>
+
+autocmd Filetype rust       inoremap <buffer> ,print <C-g>uprintln!("{:?}", );⚑<Esc>F)i<C-g>u
+autocmd Filetype javascript inoremap <buffer> ,print <C-g>uconsole.log();⚑<Esc>F)i<C-g>u
 
 " SCRIPTS
 function! s:PrintSynStack()

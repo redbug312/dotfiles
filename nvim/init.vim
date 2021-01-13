@@ -42,9 +42,8 @@ set printfont=:h8
 " let &showbreak='⮡ '
 
 " FILETYPE-SPECIFIC
-" autocmd BufEnter * if @% == '' | setlocal filetype=markdown | endif
 autocmd FileType gitcommit setlocal spell tw=72 fo+=t
-autocmd FileType markdown  setlocal spell cms=<!--%s-->
+autocmd FileType markdown  setlocal spell sw=2 ts=2 sts=2 cms=<!--%s-->
 autocmd FileType gnuplot   setlocal cms=#%s
 
 colorscheme plain
