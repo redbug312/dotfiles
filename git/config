@@ -10,14 +10,13 @@
     b = branch
     c = checkout
     s = status
-    amend = commit --amend
-    assume = update-index --assume-unchanged
-    assumed = !git ls-files -v | grep ^h | cut -c 3-
-    cached = !git difftool --cached $(git difftool --name-only --cached --diff-filter=ACMR)
-    modified = !git difftool -- $(git difftool --name-only -- --diff-filter=ACMR)
     tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
-    unassume = update-index --no-assume-unchanged
+    amend = commit --amend
     undo = reset HEAD~1 --soft
+    redo = reset 'HEAD@{1}'
+    cached = difftool --cached
+    modified = difftool --
+    untracked = ls-files --others --exclude-standard
 [diff]
     tool = vimdiff
 [merge]
