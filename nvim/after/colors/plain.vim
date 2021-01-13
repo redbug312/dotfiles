@@ -179,9 +179,13 @@ hi! link NERDTreeGitStatusUnmerged  LineNr
 hi! link NERDTreeGitStatusUntracked LineNr
 hi! link NERDTreeLinkDir            Directory
 hi! link NERDTreeUp                 Normal
+hi! link NERDTreeHelp               Comment
 
-hi! link TagbarFoldIcon             TagbarScope
+hi! link TagbarFoldIcon             Statement
 hi! link TagbarSignature            Comment
+hi! link TagbarScope                Normal
+hi! link TagbarHighlight            Title
+hi! link TagbarType                 Statement
 
 hi! link SignatureMarkText          Todo
 hi! link SignatureMarkerText        Todo
