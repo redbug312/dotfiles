@@ -1,8 +1,6 @@
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-dispatch'
-Plug 'severin-lemaignan/vim-minimap'
-let g:minimap_highlight='Visual'
 
 " COLORSCHEME
 Plug 'andreypopp/vim-colors-plain'
@@ -46,7 +44,7 @@ Plug 'cohama/lexima.vim'
 let g:sexp_enable_insert_mode_mappings = 0
 
 " MOTION & TEXTOBJS
-Plug 'tpope/vim-commentary'             " gc
+" Plug 'tpope/vim-commentary'             " gc
 Plug 'christoomey/vim-sort-motion'      " gs
 Plug 'junegunn/vim-easy-align'          " ga
 Plug 'vim-scripts/ReplaceWithRegister'  " gr
@@ -81,15 +79,14 @@ let g:gitgutter_map_keys = 0
 " Plug 'Shougo/defx.nvim'
 " Plug 'kristijanhusak/defx-git'
 
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeNaturalSort = 1
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeDirArrowExpandable = '▶'
 let g:NERDTreeDirArrowCollapsible = '▼'
 let g:NERDTreeBookmarksFile = $HOME.'/.config/nvim/nerdtree'
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ 'Modified' : '~',
     \ 'Staged'   : '*',
     \ 'Untracked': '+',

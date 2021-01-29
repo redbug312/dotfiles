@@ -26,7 +26,6 @@ elinks/globhist
 elinks/gotohist
 fish/fishd.*
 git/local/config
-nvim/nerdtree
-nvim/plugged/
+nvim/plugin/packer_compiled.vim
 vifm/vifm-help.txt
 vifm/vifminfo
