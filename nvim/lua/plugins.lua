@@ -3,8 +3,8 @@ local cmd = vim.cmd
 local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  cmd('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-  cmd 'packadd packer.nvim'
+    cmd('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+    cmd 'packadd packer.nvim'
 end
 
 cmd [[packadd packer.nvim]]
@@ -85,7 +85,7 @@ return require('packer').startup(function()
         vim.g.NERDTreeDirArrowExpandable = '▶'
         vim.g.NERDTreeDirArrowCollapsible = '▼'
     end}
-    use {'Xuyuanp/nerdtree-git-plugin', requires='scrooloose/nerdtree', config=function()
+    use {'Xuyuanp/nerdtree-git-plugin', after='nerdtree', config=function()
         vim.g.NERDTreeGitStatusIndicatorMapCustom = {
             Modified  = '~',
             Staged    = '*',
@@ -98,11 +98,11 @@ return require('packer').startup(function()
         }
     end}
 
+    use {'lvht/tagbar-markdown', after='tagbar'}
     use {'majutsushi/tagbar', config=function()
         vim.g.tagbar_autofocus = 1
         vim.g.tagbar_sort = 0
     end}
-    use {'lvht/tagbar-markdown', requires='majutsushi/tagbar'}
 
     -- TODO other status line plugin?
     use {'itchyny/lightline.vim', run=function()

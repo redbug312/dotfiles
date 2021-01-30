@@ -1,4 +1,4 @@
-let mapleader = "\<Space>"
+" let mapleader = "\<Space>"
 
 " SHORTCUTS
 nnoremap <F3>  :let @+ = expand('%:p')<CR>:echo 'Copied: '.expand('%:p')<CR>
