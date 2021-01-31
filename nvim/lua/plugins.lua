@@ -10,6 +10,7 @@ end
 cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function()
+    -- SELF-CONTAINED
     use {'wbthomason/packer.nvim', opt=true}
 
     -- COLORSCHEME
@@ -29,6 +30,16 @@ return require('packer').startup(function()
         vim.g.ale_pattern_options = {['.java$'] = {ale_enabled = 0}}
         vim.g.ale_rust_cargo_check_tests = 1
     end}
+
+    -- COLORSCHEME
+    use {'tjdevries/gruvbuddy.nvim', requires='tjdevries/colorbuddy.vim'}
+    use {'/home/redbug312/.config/nvim/cactusbuddy',
+        requires = {'tjdevries/colorbuddy.vim', 'glepnir/galaxyline.nvim'},
+        config=function()
+            vim.g.cactusbuddy_galaxyline_enabled = true
+            require('colorbuddy').colorscheme('cactusbuddy')
+        end
+    }
 
     -- AUTO-COMPLETE
     use {'lifepillar/vim-mucomplete', config=function()
@@ -102,20 +113,6 @@ return require('packer').startup(function()
     use {'majutsushi/tagbar', config=function()
         vim.g.tagbar_autofocus = 1
         vim.g.tagbar_sort = 0
-    end}
-
-    -- TODO other status line plugin?
-    use {'itchyny/lightline.vim', run=function()
-        local dir = vim.fn.stdpath('data')..
-            '/site/pack/packer/start/lightline.vim/autoload/lightline/colorscheme/'
-        local file = vim.fn.stdpath('config')..'/road.vim'
-        vim.cmd(string.format('!cp %s %s', file, dir))
-    end, config=function()
-        vim.g['lightline'] = {
-            colorscheme = 'road',
-            subseparator = { left = '', right = '\\ue0b3' },
-            component = { readonly = '[%R]', modified = '[%M]' },
-        }
     end}
 
 end)

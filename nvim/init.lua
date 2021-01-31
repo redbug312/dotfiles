@@ -13,8 +13,6 @@ g.python3_host_prog = '/usr/bin/python3'
 require 'plugins'  -- located ~/.config/nvim/lua/plugins.lua
 
 cmd('source '..vim.fn.stdpath'config'..'/config/mappings.vim')
-cmd('source '..vim.fn.stdpath'config'..'/overrides.vim')
-cmd 'colorscheme plain'
 
 map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
 map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
@@ -56,6 +54,7 @@ wo.list = true
 wo.number = true
 wo.relativenumber = true
 opt.listchars = opt.listchars..',tab:» ,trail:·'
+opt.termguicolors = true
 opt.background = 'dark'
 opt.showmode = false
 opt.scrolloff = 8
