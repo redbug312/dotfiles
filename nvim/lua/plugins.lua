@@ -13,22 +13,33 @@ return require('packer').startup(function()
     -- SELF-CONTAINED
     use {'wbthomason/packer.nvim', opt=true}
 
-    -- COLORSCHEME
-    use 'andreypopp/vim-colors-plain'
-    use {'junegunn/seoul256.vim', config=function()
-        vim.g.seoul256_background = 234
+    -- TREE-SITTER
+    use {'nvim-treesitter/playground', after='nvim-treesitter'}
+    use {'nvim-treesitter/nvim-treesitter-refactor', after='nvim-treesitter'}
+    use {'nvim-treesitter/nvim-treesitter-textobjects', after='nvim-treesitter'}
+    use {'nvim-treesitter/nvim-treesitter', run=':TSUpdate', config=function()
+        require 'treesitter'
     end}
 
-    -- LINTING
-    use {'w0rp/ale', config=function()
-        vim.g.ale_sign_column_always = 1
-        vim.g.ale_sign_error = '×'
-        vim.g.ale_sign_warning = '△'
-        vim.g.ale_c_gcc_options = '-Iinclude'
-        vim.g.ale_c_parse_makefile = 1
-        vim.g.ale_python_flake8_options = '--ignore E501,E221,E241,E272'
-        vim.g.ale_pattern_options = {['.java$'] = {ale_enabled = 0}}
-        vim.g.ale_rust_cargo_check_tests = 1
+    -- LANGUAGE-SERVER
+    use {'neovim/nvim-lspconfig', config=function()
+        local lsp = require 'lspconfig'
+        lsp.pyls.setup {}
+    end}
+    use {'ojroques/nvim-lspfuzzy', requires={'junegunn/fzf', 'junegunn/fzf.vim'},
+        after='nvim-lspconfig', run=':call fzf#install()', config=function()
+        local lspfuzzy = require 'lspfuzzy'
+        lspfuzzy.setup {}
+    end}
+
+    -- TELESCOPE
+    use {'nvim-telescope/telescope.nvim', requires={'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'}, config=function()
+        local remap = vim.api.nvim_set_keymap
+        local opts = { silent = true, noremap = true }
+        remap('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', opts)
+        remap('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>' , opts)
+        remap('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers()<cr>'   , opts)
+        remap('n', '<leader>fh', '<cmd>lua require"telescope.builtin".help_tags()<cr>' , opts)
     end}
 
     -- COLORSCHEME
@@ -46,14 +57,6 @@ return require('packer').startup(function()
         vim.g['mucomplete#enable_auto_at_startup'] = 1
         vim.g['mucomplete#no_mappings'] = 1
         vim.g['mucomplete#spel#max'] = 5
-    end}
-
-    -- SYNTAX-HIGHLIHGT
-    use {'sheerun/vim-polyglot', config=function()
-        vim.g.vim_markdown_math = 1
-        vim.g.vim_markdown_folding_disabled = 1
-        vim.g.vim_markdown_new_list_item_indent = 0
-        vim.g.csv_no_conceal = 1
     end}
 
     -- BRACKET-MATCHING
