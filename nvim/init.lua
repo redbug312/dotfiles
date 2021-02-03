@@ -10,7 +10,8 @@ g.mapleader = ','
 g.undodir = vim.fn.stdpath'cache'..'/undodir'
 g.python3_host_prog = '/usr/bin/python3'
 
-require 'plugins'  -- located ~/.config/nvim/lua/plugins.lua
+require 'plugins'   -- located ~/.config/nvim/lua/plugins.lua
+require 'mappings'  -- located ~/.config/nvim/lua/mappings.lua
 
 cmd('source '..vim.fn.stdpath'config'..'/config/mappings.vim')
 
