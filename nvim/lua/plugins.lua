@@ -53,16 +53,14 @@ return require('packer').startup(function()
     }
 
     -- AUTO-COMPLETE
-    use {'lifepillar/vim-mucomplete', config=function()
-        vim.g['mucomplete#enable_auto_at_startup'] = 1
-        vim.g['mucomplete#no_mappings'] = 1
-        vim.g['mucomplete#spel#max'] = 5
-    end}
+    use {'nvim-lua/completion-nvim',
+        config = function()
+            vim.g.completion_trigger_keyword_length = 3
+            vim.cmd 'autocmd BufEnter * lua require"completion".on_attach()'
+        end
+    }
 
     -- BRACKET-MATCHING
-    use {'tpope/vim-sexp-mappings-for-regular-people', requires='guns/vim-sexp', config=function()
-        vim.g.sexp_enable_insert_mode_mappings = 0
-    end}
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
     use 'cohama/lexima.vim'
@@ -87,30 +85,37 @@ return require('packer').startup(function()
 
     -- USER-INTERFACE
     use 'kshenoy/vim-signature'
-    use {'airblade/vim-gitgutter', config=function()
-        vim.g.gitgutter_map_keys = 0
-    end}
 
-    use {'scrooloose/nerdtree', config=function()
-        vim.g.NERDTreeBookmarksFile = vim.fn.stdpath'data'..'/nerdtree'
-        vim.g.NERDTreeShowBookmarks = 1
-        vim.g.NERDTreeNaturalSort = 1
-        vim.g.NERDTreeChDirMode = 2
-        vim.g.NERDTreeDirArrowExpandable = '▶'
-        vim.g.NERDTreeDirArrowCollapsible = '▼'
-    end}
-    use {'Xuyuanp/nerdtree-git-plugin', after='nerdtree', config=function()
-        vim.g.NERDTreeGitStatusIndicatorMapCustom = {
-            Modified  = '~',
-            Staged    = '*',
-            Untracked = '+',
-            Renamed   = ':',
-            Unmerged  = '!',
-            Deleted   = '-',
-            Dirty     = '×',
-            Unknown   = '?',
-        }
-    end}
+    use {'lewis6991/gitsigns.nvim',
+        requires = {'nvim-lua/plenary.nvim'},
+        config = function() require('gitsigns').setup {
+            signs = {
+                add          = { hl = 'LineNr' },
+                change       = { hl = 'LineNr' },
+                delete       = { hl = 'LineNr', text = '═' },
+                topdelete    = { hl = 'LineNr', text = '╤' },
+                changedelete = { hl = 'LineNr', text = '╧' },
+            },
+        } end
+    }
+
+    use {'kyazdani42/nvim-tree.lua',
+        config = function()
+            vim.g.nvim_tree_icons = {
+                git = {
+                    unstaged  = '(△)',
+                    staged    = '(✓)',
+                    unmerged  = '(!)',
+                    renamed   = '(-)',
+                    untracked = '(+)',
+                },
+                folder = {
+                    default = '▶',
+                    open    = '▼',
+                }
+            }
+        end
+    }
 
     use {'lvht/tagbar-markdown', after='tagbar'}
     use {'majutsushi/tagbar', config=function()

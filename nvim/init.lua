@@ -53,6 +53,7 @@ opt.hlsearch = true
 wo.list = true
 wo.number = true
 wo.relativenumber = true
+wo.cursorline = true
 opt.listchars = opt.listchars..',tab:» ,trail:·'
 opt.termguicolors = true
 opt.background = 'dark'

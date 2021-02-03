@@ -8,7 +8,7 @@ nnoremap <F6>  :wa<CR>:make start<CR>
 nnoremap <F7>  :wa<CR>:make debug<CR>
 nnoremap <F8>  :wa<CR>:make check<CR>
 nnoremap <F9>  :vsplit term://fish<CR>A
-nmap     <F10> <Plug>(GitGutterPreviewHunk)
+nnoremap <F10> <cmd>lua require"gitsigns".preview_hunk()<cr>
 
 " REPLACEMENTS
 noremap  ^ 0
@@ -26,12 +26,12 @@ inoremap <C-h> <C-\><C-O>db
 " VIEWING (LEADER)
 nnoremap <Leader>a  :FSSplitRight<CR>
 nnoremap <Leader>c  :call<SID>PrintSynStack()<CR>
-nnoremap <Leader>h  :NERDTreeToggle<CR>
+nnoremap <Leader>h  :NvimTreeToggle<CR>
 nnoremap <Leader>j  :cclose\|pclose\|lclose<CR>
 nnoremap <Leader>k  :buffers<CR>
 nnoremap <Leader>l  :TagbarToggle<CR>
-nmap     <Leader>gs <Plug>(GitGutterStageHunk)
-nmap     <Leader>gu <Plug>(GitGutterUndoHunk)
+" nmap     <Leader>gs <Plug>(GitGutterStageHunk)
+" nmap     <Leader>gu <Plug>(GitGutterUndoHunk)
 
 " OPTIONS (LEADER-O)
 nnoremap <Leader>ob :set<Space>linebreak!<CR>
