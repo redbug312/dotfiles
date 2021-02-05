@@ -27,7 +27,6 @@ opt.expandtab = true
 opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.tabstop = 4
-opt.undofile = true
 opt.spelllang = 'en_us,cjk'
 opt.formatoptions = opt.formatoptions..'nBj'
 
@@ -35,7 +34,6 @@ bo.expandtab = true
 bo.shiftwidth = 4
 bo.softtabstop = 4
 bo.tabstop = 4
-bo.undofile = true
 bo.spelllang = 'en_us,cjk'
 bo.formatoptions = bo.formatoptions..'nBj'
 
@@ -51,6 +49,7 @@ wo.number = true
 wo.relativenumber = true
 wo.cursorline = true
 opt.listchars = opt.listchars..',tab:» ,trail:·'
+opt.fillchars = 'fold:╴'
 opt.termguicolors = true
 opt.background = 'dark'
 opt.showmode = false
@@ -58,7 +57,7 @@ opt.scrolloff = 8
 
 -- AUTOCMDS
 cmd 'autocmd FileType gitcommit setlocal spell tw=72 fo+=t'
-cmd 'autocmd FileType markdown  setlocal spell sw=2 ts=2 sts=2 cms=<!--%s-->'
+cmd 'autocmd FileType markdown  setlocal sw=2 ts=2 sts=2 cms=<!--%s-->'
 cmd 'autocmd FileType gnuplot   setlocal cms=#%s'
 cmd 'autocmd BufWritePost plugins.lua luafile %:p'
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'

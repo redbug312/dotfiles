@@ -14,13 +14,25 @@ return require('packer').startup(function()
     use {'wbthomason/packer.nvim', opt = true}
 
     -- STILL IN EXPERIMENT
+    -- notice if any plugin make intro disappeared
     use {'tjdevries/train.nvim'}
+    use {'tweekmonster/startuptime.vim'}
+    -- use {'sheerun/vim-polyglot', -- ft = {'markdown', 'pug'},
+    --     config = function()
+    --         vim.g.vim_markdown_math = 1
+    --         vim.g.vim_markdown_frontmatter = 1
+    --         vim.g.vim_markdown_folding_disabled = 1
+    --         vim.g.vim_markdown_new_list_item_indent = 0
+    --     end
+    -- }
 
     -- TREE-SITTER
-    use {'nvim-treesitter/nvim-treesitter-refactor', after = 'nvim-treesitter'}
-    use {'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter'}
-    use {'nvim-treesitter/playground', after = 'nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
+        requires = {
+            'nvim-treesitter/nvim-treesitter-refactor',
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            'nvim-treesitter/playground',
+        },
         config = function() require 'treesitter' end
     }
 
@@ -34,7 +46,13 @@ return require('packer').startup(function()
 
     -- TELESCOPE
     use {'nvim-telescope/telescope.nvim',
-        requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
+        requires = {
+            'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope-project.nvim',
+        },
+        config = function()
+            require'telescope'.load_extension'project'
+        end,
     }
 
     -- COLORSCHEME
@@ -114,8 +132,8 @@ return require('packer').startup(function()
         end
     }
 
-    use {'lvht/tagbar-markdown', after = 'tagbar'}
     use {'majutsushi/tagbar',
+        requires = 'lvht/tagbar-markdown',
         config = function()
             vim.g.tagbar_autofocus = 1
             vim.g.tagbar_sort = 0

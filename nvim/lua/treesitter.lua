@@ -2,6 +2,7 @@ require 'nvim-treesitter.configs'.setup {
     -- nvim-treesitter
     ensure_installed = 'maintained',
     highlight = { enable = true },
+    indent = { enable = true },
 
     -- nvim-treesitter-refactor
     refactor = {
