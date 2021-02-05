@@ -5,18 +5,13 @@ local wo  = vim.wo
 local cmd = vim.cmd
 local map = vim.api.nvim_set_keymap
 
-opt.compatible = false
 g.mapleader = ','
 g.undodir = vim.fn.stdpath'cache'..'/undodir'
 g.python3_host_prog = '/usr/bin/python3'
+opt.compatible = false
 
 require 'plugins'   -- located ~/.config/nvim/lua/plugins.lua
 require 'mappings'  -- located ~/.config/nvim/lua/mappings.lua
-
-cmd('source '..vim.fn.stdpath'config'..'/config/mappings.vim')
-
-map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
-map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
 
 -- FEATURES
 wo.foldmethod = 'expr'
