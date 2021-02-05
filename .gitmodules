@@ -1,0 +1,4 @@
+[submodule "nvim/cactusbuddy"]
+	path = nvim/cactusbuddy
+	url = https://github.com/redbug312/cactusbuddy
+	ignore = dirty
