@@ -98,6 +98,7 @@ color 'AuthorDate: '    240 default
 color 'Commit: '        240 default
 color 'CommitDate: '    240 default
 color main-remote       103 default
+color main-tracked      103 default
 color diff-header       248 default
 color diff-index        240 default
 color diff-oldmode      240 default

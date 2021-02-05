@@ -9,7 +9,7 @@
 [alias]
     b = branch
     c = checkout
-    s = status
+    s = status --ignore-submodules
     tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
     amend = commit --amend
     undo = reset HEAD~1 --soft
