@@ -6,6 +6,7 @@ local o = {
     nowait = { expr = false, noremap = true,  nowait = true  },
 }
 
+map('n', '<leader>fa', '<cmd>lua require"telescope.builtin".builtin()<cr>', o.none)
 map('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers{show_all_buffers = true}<cr>', o.none)
 map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
 map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
@@ -17,6 +18,7 @@ map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{}
 
 map('n', '<leader>h', '<cmd>lua require"nvim-tree".toggle()<cr>' , o.none)
 map('n', '<leader>l', '<cmd>TagbarToggle<cr>' , o.none)
+map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
 
 -- FN SHORTCUTS
 
@@ -40,9 +42,12 @@ map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 map('n', 'K', 'i<cr><esc>k$', o.none)  -- split; reverse of J
 map('n', 'Q', '<nop>', o.none)  -- avoid mistype entering ex mode
 map('n', 'Y', 'y$', o.none)  -- yank to end-of-line, suggested in help-doc
-map('n', 'q:', '<nop>', o.none)  -- avoid mistype entering cmd window
 map('v', '/', '<esc>/\\%V', o.none)  -- search within range
 map('n', '<c-c>', '<c-a>', o.none)  -- <c-a> is tmux prefix key now
+
+map('n', 'q:', '<nop>', o.none)
+map('n', 'q', '<nop>', o.none)
+map('n', 'Q', 'q', o.none)
 
 -- NAVIGATE
 
@@ -63,7 +68,6 @@ map('v', '<c-l>', '>gv', o.none)
 -- OTHER MODES
 
 map('c', '<c-c>', '<esc>', o.none)
-map('c', '<c-p>', 'lua print(vim.inspect(  ))<left><left><left>', o.none)
 map('c', '<c-_>', '<cr>:%s`<C-r>/``gc<left><left><left>', o.none)
 map('c', 'w!!', 'w !sudo tee % >/dev/null', o.none)
 
@@ -77,5 +81,28 @@ map('i', '<leader>"', '<c-r>', o.none)
 map('i', '<leader>[', '<left>', o.none)
 map('i', '<leader>]', '<right>', o.none)
 
-map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', o.expr)
+map('i', '<c-w>',   '<c-\\><c-O>db', o.none)
 map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', o.expr)
+map('i', '<s-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', o.expr)
+
+-- FUNCTIONS
+
+local M = {}
+
+function M.synstack()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local synstack = vim.fn.synstack(row, col)
+  local groups = vim.fn.map(synstack, 'synIDattr(v:val, "name")')
+  print(vim.inspect(groups))
+
+  local syntax = vim.fn.synID(row, col, 1)
+  local target = vim.fn.synIDtrans(syntax)
+  if syntax ~= 0 then
+    vim.cmd('hi '..vim.fn.synIDattr(syntax, 'name'))
+  end
+  if target ~= 0 then
+    vim.cmd('hi '..vim.fn.synIDattr(target, 'name'))
+  end
+end
+
+return M
