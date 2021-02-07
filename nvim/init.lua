@@ -59,5 +59,6 @@ opt.scrolloff = 8
 cmd 'autocmd FileType gitcommit setlocal spell tw=72 fo+=t'
 cmd 'autocmd FileType markdown  setlocal sw=2 ts=2 sts=2 cms=<!--%s-->'
 cmd 'autocmd FileType gnuplot   setlocal cms=#%s'
+cmd 'autocmd FileType lua       setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd BufWritePost plugins.lua luafile %:p'
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'

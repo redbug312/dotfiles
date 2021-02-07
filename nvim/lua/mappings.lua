@@ -1,9 +1,9 @@
 local map = vim.api.nvim_set_keymap
 local o = {
-    none   = { expr = false, noremap = true,  nowait = false },
-    expr   = { expr = true,  noremap = true,  nowait = false },
-    remap  = { expr = false, noremap = false, nowait = false },
-    nowait = { expr = false, noremap = true,  nowait = true  },
+  none   = { expr = false, noremap = true,  nowait = false },
+  expr   = { expr = true,  noremap = true,  nowait = false },
+  remap  = { expr = false, noremap = false, nowait = false },
+  nowait = { expr = false, noremap = true,  nowait = true  },
 }
 
 map('n', '<leader>fa', '<cmd>lua require"telescope.builtin".builtin()<cr>', o.none)
