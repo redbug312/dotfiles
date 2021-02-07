@@ -19,6 +19,8 @@ map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{}
 map('n', '<leader>h', '<cmd>lua require"nvim-tree".toggle()<cr>' , o.none)
 map('n', '<leader>l', '<cmd>TagbarToggle<cr>' , o.none)
 map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
+map('n', '<leader>s', '<cmd>lua require"mappings".synstack()<cr>', o.none)
+map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
 
 -- FN SHORTCUTS
 
@@ -29,7 +31,7 @@ map('n', '<f6>', '<cmd>wa<cr><cmd>make start<cr>', o.none)
 map('n', '<f7>', '<cmd>wa<cr><cmd>make debug<cr>', o.none)
 map('n', '<f8>', '<cmd>wa<cr><cmd>make check<cr>', o.none)
 map('n', '<f9>', '<cmd>vsplit term://fish<cr>A', o.none)
-map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr>:echo "Copied: ".expand("%:p")<cr>', o.none)
+map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>', o.none)
 
 -- EDIT TEXT
 
@@ -90,6 +92,11 @@ map('i', '<s-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', o.expr)
 local M = {}
 
 function M.synstack()
+  if pcall(vim.treesitter.get_parser, 0) then
+    local playground = require 'nvim-treesitter-playground.hl-info'
+    playground.show_hl_captures()
+  end
+
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local synstack = vim.fn.synstack(row, col)
   local groups = vim.fn.map(synstack, 'synIDattr(v:val, "name")')
@@ -103,6 +110,16 @@ function M.synstack()
   if target ~= 0 then
     vim.cmd('hi '..vim.fn.synIDattr(target, 'name'))
   end
+end
+
+function M.train()
+  local training = require 'train'
+  local movements = {
+    '(',  ')',  '{',  '}',
+    '[[', ']]', '[]', '][', '[(', '])', '[{', ']}',
+    '[m', ']m', '[M', ']M', '[#', ']#', '[/', ']/',
+  }
+  training.show_matches(movements)
 end
 
 return M
