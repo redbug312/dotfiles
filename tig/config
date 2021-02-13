@@ -32,8 +32,8 @@ color author      241     default
 color title-blur  241     235
 color title-focus 246     235
 color cursor      default 234
-color header  248 default
-color section 110 default
+color header      248     default
+color section     110     default
 
 color main-local-tag 103 default
 color main-tag       103 default
@@ -45,6 +45,7 @@ color main-head      108 default underline
 color graph-commit 065 default
 color palette-0    137 default
 color palette-1    067 default
+color palette-2    145 default
 
 color 'commit '            248 default
 color 'Refs: '             245 default
