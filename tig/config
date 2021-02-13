@@ -6,11 +6,12 @@ set git-colors = no
 # KEY-BINDING
 # ref: https://github.com/jonas/tig/wiki/Bindings
 
-bind main ! !git revert %(commit)
-bind main B !git branch "%(prompt Enter new tag name: )" %(commit)
-bind main P !git push origin
-bind main R !git rebase -i %(commit)
-bind main T !git tag "%(prompt Enter new tag name: )" %(commit)
+bind main g! !git revert %(commit)
+bind main gb !git branch "%(prompt Enter new branch name: )" %(commit)
+bind main gc !git commit -v
+bind main gp !git push origin
+bind main gr !git rebase -i %(commit)
+bind main gt !git tag "%(prompt Enter new tag name: )" %(commit)
 
 bind generic g     none
 bind generic gg    move-first-line
