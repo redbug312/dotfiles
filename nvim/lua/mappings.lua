@@ -11,16 +11,22 @@ map('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers{show_all_buf
 map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
 map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
 map('n', '<leader>fh', '<cmd>lua require"telescope.builtin".help_tags()<cr>', o.none)
-map('n', '<leader>fo', '<cmd>lua require"telescope.builtin".vim_options()<cr>', o.none)
-map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{}<cr>', o.none)
+map('n', '<leader>fo', '<cmd>lua require"telescope.builtin".oldfiles()<cr>', o.none)
+map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{change_dir = true}<cr>', o.none)
+map('n', '<leader>fq', '<cmd>lua require"telescope.builtin".quickfix()<cr>', o.none)
 
 -- TODO explicitly define gitsigns mappings
 
-map('n', '<leader>h', '<cmd>lua require"nvim-tree".toggle()<cr>' , o.none)
-map('n', '<leader>l', '<cmd>TagbarToggle<cr>' , o.none)
-map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
-map('n', '<leader>s', '<cmd>lua require"mappings".synstack()<cr>', o.none)
+map('n', '<leader>yh', '<cmd>lua require"nvim-tree".toggle()<cr>', o.none)
+map('n', '<leader>yl', '<cmd>TagbarToggle<cr>', o.none)
+
+map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
 map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
+map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
+
+map('n', '<leader>a', '<plug>(EasyAlign)', o.remap)
+map('v', '<leader>a', '<plug>(EasyAlign)', o.remap)
+map('n', '<leader>-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 
 -- FN SHORTCUTS
 
@@ -33,25 +39,25 @@ map('n', '<f8>', '<cmd>wa<cr><cmd>make check<cr>', o.none)
 map('n', '<f9>', '<cmd>vsplit term://fish<cr>A', o.none)
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>', o.none)
 
--- EDIT TEXT
-
-map('n', 'ga', '<plug>(EasyAlign)', o.remap)
-map('v', 'ga', '<plug>(EasyAlign)', o.remap)
-map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
-
 -- MISCELLANEOUS
-
-map('n', 'K', 'i<cr><esc>k$', o.none)  -- split; reverse of J
-map('n', 'Q', '<nop>', o.none)  -- avoid mistype entering ex mode
-map('n', 'Y', 'y$', o.none)  -- yank to end-of-line, suggested in help-doc
-map('v', '/', '<esc>/\\%V', o.none)  -- search within range
-map('n', '<c-c>', '<c-a>', o.none)  -- <c-a> is tmux prefix key now
 
 map('n', 'q:', '<nop>', o.none)
 map('n', 'q', '<nop>', o.none)
 map('n', 'Q', 'q', o.none)
 
+map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', o.none)  -- better keyword lookup
+map('n', 'Y', 'y$', o.none)  -- yank to end-of-line, suggested in help-doc
+map('v', '/', '<esc>/\\%V', o.none)  -- search within range
+map('n', '-', '$', o.none)  -- dollar sign is hard to reach
+map('n', '<c-c>', '<c-a>', o.none)  -- <c-a> is tmux prefix key now
+
 -- NAVIGATE
+
+map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', o.none)
+map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', o.none)
+
+map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', o.none)
+map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
 
 map('t', '<c-h>', '<c-\\><c-n><c-w>h', o.none)
 map('t', '<c-j>', '<c-\\><c-n><c-w>j', o.none)

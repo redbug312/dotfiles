@@ -8,10 +8,14 @@ set git-colors = no
 
 bind main g! !git revert %(commit)
 bind main gb !git branch "%(prompt Enter new branch name: )" %(commit)
-bind main gc !git commit -v
+bind main gc !git commit
 bind main gp !git push origin
 bind main gr !git rebase -i %(commit)
 bind main gt !git tag "%(prompt Enter new tag name: )" %(commit)
+
+bind stage 1  stage-update-line
+bind stage gc !git commit
+bind stage gp !git push origin
 
 bind generic g     none
 bind generic gg    move-first-line
