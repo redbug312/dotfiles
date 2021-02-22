@@ -102,7 +102,7 @@ function M.synstack()
   local groups = vim.fn.map(synstack, 'synIDattr(v:val, "name")')
   print(vim.inspect(groups))
 
-  local syntax = vim.fn.synID(row, col, 1)
+  local syntax = vim.fn.synID(row, col+1, 1)
   local target = vim.fn.synIDtrans(syntax)
   if syntax ~= 0 then
     vim.cmd('hi '..vim.fn.synIDattr(syntax, 'name'))

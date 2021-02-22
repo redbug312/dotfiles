@@ -38,9 +38,26 @@ return require('packer').startup(function()
 
   -- LANGUAGE-SERVER
   use {'neovim/nvim-lspconfig',
+    requires = {
+      'nvim-lua/completion-nvim',
+      'nvim-lua/lsp_extensions.nvim',
+    },
     config = function()
       local lsp = require 'lspconfig'
-      lsp.pyls.setup {}
+      local on_attach = require'completion'.on_attach
+      lsp.pyls.setup{ on_attach = on_attach }
+      lsp.rust_analyzer.setup{ on_attach = on_attach }
+
+      vim.cmd(
+        "autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
+        ":lua require'lsp_extensions'.inlay_hints{"..
+        "  prefix = ' » ', highlight = 'String',"..
+        "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..
+        "}"
+      )
+
+      vim.g.completion_trigger_keyword_length = 3
+      vim.cmd 'autocmd BufEnter * lua require"completion".on_attach()'
     end
   }
 
@@ -62,14 +79,6 @@ return require('packer').startup(function()
     config = function()
       vim.g.cactusbuddy_galaxyline_enabled = true
       require('colorbuddy').colorscheme('cactusbuddy')
-    end
-  }
-
-  -- AUTO-COMPLETE
-  use {'nvim-lua/completion-nvim',
-    config = function()
-      vim.g.completion_trigger_keyword_length = 3
-      vim.cmd 'autocmd BufEnter * lua require"completion".on_attach()'
     end
   }
 
