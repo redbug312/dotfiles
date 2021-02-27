@@ -3,7 +3,6 @@ local opt = vim.o
 local bo  = vim.bo
 local wo  = vim.wo
 local cmd = vim.cmd
-local map = vim.api.nvim_set_keymap
 
 g.mapleader = ','
 g.undodir = vim.fn.stdpath'cache'..'/undodir'
@@ -53,7 +52,7 @@ opt.fillchars = 'fold:╴'
 opt.termguicolors = true
 opt.background = 'dark'
 opt.showmode = false
-opt.scrolloff = 8
+opt.scrolloff = 3
 
 -- AUTOCMDS
 cmd 'autocmd FileType gitcommit setlocal spell tw=72 fo+=t'

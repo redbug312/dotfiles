@@ -19,6 +19,7 @@ map('n', '<leader>fq', '<cmd>lua require"telescope.builtin".quickfix()<cr>', o.n
 
 map('n', '<leader>yh', '<cmd>lua require"nvim-tree".toggle()<cr>', o.none)
 map('n', '<leader>yl', '<cmd>TagbarToggle<cr>', o.none)
+map('n', '<leader>yc', '<cmd>lua require"mappings".colorcolumn()<cr>', o.none)
 
 map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
 map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
@@ -126,6 +127,11 @@ function M.train()
     '[m', ']m', '[M', ']M', '[#', ']#', '[/', ']/',
   }
   training.show_matches(movements)
+end
+
+function M.colorcolumn()
+  local cc = vim.wo.colorcolumn
+  vim.wo.colorcolumn = (cc == "") and "80,81" or ""
 end
 
 return M
