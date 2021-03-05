@@ -20,6 +20,10 @@
 !tig/**
 !vifm
 !vifm/**
+!xfce4
+!xfce4/terminal
+!xfce4/terminal/colorschemes
+!xfce4/terminal/colorschemes/redbug312.theme
 
 elinks/bookmarks
 elinks/cookies
