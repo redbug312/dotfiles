@@ -1,8 +1,9 @@
 *
 !.gitignore
 
+!cmus
 !cmus/rc
-!cmus/rc/**
+!cmus/redbug312.theme
 !fish
 !fish/**
 !fontconfig
