@@ -51,7 +51,7 @@ return require('packer').startup(function()
       vim.cmd(
         "autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
         ":lua require'lsp_extensions'.inlay_hints{"..
-        "  prefix = ' » ', highlight = 'String',"..
+        "  prefix = ' » ', highlight = 'NonText',"..
         "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..
         "}"
       )

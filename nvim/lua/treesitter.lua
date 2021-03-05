@@ -1,13 +1,23 @@
 require 'nvim-treesitter.configs'.setup {
   -- nvim-treesitter
   ensure_installed = 'maintained',
-  highlight = { enable = true, disable = {'rust'} },
-  indent = { enable = true },
+  highlight = {
+    enable = true,
+    disable = {'rust'}
+  },
+  indent = {
+    enable = true,
+    disable = {'rust'}
+  },
 
   -- nvim-treesitter-refactor
   refactor = {
-    highlight_definitions = { enable = false },
-    highlight_current_scope = { enable = false },
+    highlight_definitions = {
+      enable = false
+    },
+    highlight_current_scope = {
+      enable = false
+    },
     smart_rename = {
       enable = true,
       keymaps = { smart_rename = 'grr' }

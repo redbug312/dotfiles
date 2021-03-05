@@ -21,13 +21,15 @@ map('n', '<leader>yh', '<cmd>lua require"nvim-tree".toggle()<cr>', o.none)
 map('n', '<leader>yl', '<cmd>TagbarToggle<cr>', o.none)
 map('n', '<leader>yc', '<cmd>lua require"mappings".colorcolumn()<cr>', o.none)
 
+map('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', o.none)
 map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
+map('n', '<leader>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', o.none)
 map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
 map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
 
-map('n', '<leader>a', '<plug>(EasyAlign)', o.remap)
-map('v', '<leader>a', '<plug>(EasyAlign)', o.remap)
-map('n', '<leader>-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
+map('n', 'ga', '<plug>(EasyAlign)', o.remap)
+map('v', 'ga', '<plug>(EasyAlign)', o.remap)
+map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 
 -- FN SHORTCUTS
 
@@ -56,9 +58,9 @@ map('n', '<c-c>', '<c-a>', o.none)  -- <c-a> is tmux prefix key now
 
 map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', o.none)
 map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', o.none)
-
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', o.none)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
+map('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
 
 map('t', '<c-h>', '<c-\\><c-n><c-w>h', o.none)
 map('t', '<c-j>', '<c-\\><c-n><c-w>j', o.none)
@@ -84,6 +86,8 @@ map('i', '<leader>flag', '⚑', o.none)
 map('n', '<leader><leader>', '<esc><cmd>let @/="⚑"<cr>ncl', o.none)
 map('v', '<leader><leader>', '<esc><cmd>let @/="⚑"<cr>ncl', o.none)
 map('i', '<leader><leader>', '<esc><cmd>let @/="⚑"<cr>ncl', o.none)
+
+vim.cmd('autocmd Filetype rust inoremap <buffer> ,print <C-g>uprintln!("{:?}", );<Esc>F)i<C-g>u')
 
 map('i', '<leader>*', '<c-g>u<esc>[s1z=`]a<c-g>u', o.none)
 map('i', '<leader>"', '<c-r>', o.none)
