@@ -54,9 +54,9 @@ function fish_prompt --description 'Write out the prompt'
         if [ -z (_git_dirty) ]
             printf "%s  %s" (set_color green) (_git_branch)
         else if [ -z (_git_untracked) ]
-            printf "%s  %s" (set_color yellow) (_git_branch)
+            printf "%s  %s" (set_color cyan) (_git_branch)
         else
-            printf "%s  %s" (set_color red) (_git_branch)
+            printf "%s  %s" (set_color magenta) (_git_branch)
         end
     end
 
