@@ -8,12 +8,16 @@ local o = {
 
 map('n', '<leader>fa', '<cmd>lua require"telescope.builtin".builtin()<cr>', o.none)
 map('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers{show_all_buffers = true}<cr>', o.none)
+map('n', '<leader>fc', '<cmd>lua require"telescope.builtin".command_history()<cr>', o.none)
+map('n', '<leader>fd', '<cmd>lua require"telescope.builtin".lsp_workspace_diagnostics()<cr>', o.none)
 map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
 map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
 map('n', '<leader>fh', '<cmd>lua require"telescope.builtin".help_tags()<cr>', o.none)
+map('n', '<leader>fm', '<cmd>lua require"telescope.builtin".marks()<cr>', o.none)
 map('n', '<leader>fo', '<cmd>lua require"telescope.builtin".oldfiles()<cr>', o.none)
 map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{change_dir = true}<cr>', o.none)
-map('n', '<leader>fq', '<cmd>lua require"telescope.builtin".quickfix()<cr>', o.none)
+map('n', '<leader>fr', '<cmd>lua require"telescope.builtin".lsp_references()<cr>', o.none)
+map('n', '<leader>fs', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols()<cr>', o.none)
 
 -- TODO explicitly define gitsigns mappings
 
