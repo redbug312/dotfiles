@@ -23,6 +23,9 @@ function fish_prompt --description 'Write out the prompt'
     function _git_dirty
         echo (git status -s -unormal --ignore-submodules ^/dev/null)
     end
+    function _git_modified
+        echo (git status -s -unormal --ignore-submodules ^/dev/null | grep '^.M')
+    end
     function _git_untracked
         echo (git status -s -unormal --ignore-submodules ^/dev/null | grep '^??')
     end
@@ -51,12 +54,14 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     if [ (_git_branch) ]
-        if [ -z (_git_dirty) ]
-            printf "%s  %s" (set_color green) (_git_branch)
-        else if [ -z (_git_untracked) ]
+        if [ -n (_git_untracked) ]
+            printf "%s  %s" (set_color magenta) (_git_branch)
+        else if [ -n (_git_modified) ]
+            printf "%s  %s" (set_color blue) (_git_branch)
+        else if [ -n (_git_dirty) ]
             printf "%s  %s" (set_color cyan) (_git_branch)
         else
-            printf "%s  %s" (set_color magenta) (_git_branch)
+            printf "%s  %s" (set_color green) (_git_branch)
         end
     end
 
