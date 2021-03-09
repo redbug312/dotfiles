@@ -111,6 +111,10 @@ read_commit_message() {
     REPLY="${REPLY%%*( )}"
     shopt -u extglob
 
+    # ignore all lines after cut line
+    [[ $REPLY == "# ------------------------ >8 ------------------------" ]]
+    test $? -eq 1 || break
+
     # ignore comments
     [[ $REPLY =~ ^# ]]
     test $? -eq 0 || COMMIT_MSG_LINES+=("$REPLY")
@@ -119,7 +123,7 @@ read_commit_message() {
 }
 
 #
-# Validate the contents of the commmit msg agains the good commit guidelines.
+# Validate the contents of the commit msg against the good commit guidelines.
 #
 
 validate_commit_message() {
@@ -165,8 +169,10 @@ validate_commit_message() {
 
   IMPERATIVE_MOOD_BLACKLIST=(
     added          adds          adding
-    avoided        avoids        avoiding
+    affixed        affixes       affixing
+    adjusted       adjusts       adjusting
     amended        amends        amending
+    avoided        avoids        avoiding
     bumped         bumps         bumping
     changed        changes       changing
     checked        checks        checking
@@ -174,21 +180,47 @@ validate_commit_message() {
     copied         copies        copying
     corrected      corrects      correcting
     created        creates       creating
+    decreased      decreases     decreasing
     deleted        deletes       deleting
+    disabled       disables      disabling
+    dropped        drops         dropping
+    duplicated     duplicates    duplicating
+    enabled        enables       enabling
+    enhanced       enhances      enhancing
+    excluded       excludes      excluding
+    extracted      extracts      extracting
     fixed          fixes         fixing
+    handled        handles       handling
     implemented    implements    implementing
     improved       improves      improving
+    included       includes      including
+    increased      increases     increasing
+    installed      installs      installing
     introduced     introduces    introducing
+    leased         leases        leasing
+    managed        manages       managing
+    merged         merges        merging
     moved          moves         moving
+    normalised     normalises    normalising
+    normalized     normalizes    normalizing
+    passed         passes        passing
+    pointed        points        pointing
     pruned         prunes        pruning
+    ran            runs          running
     refactored     refactors     refactoring
+    released       releases      releasing
     removed        removes       removing
     renamed        renames       renaming
     replaced       replaces      replacing
     resolved       resolves      resolving
+    reverted       reverts       reverting
+                   sets          setting
     showed         shows         showing
+    swapped        swaps         swapping
     tested         tests         testing
+    tidied         tidies        tidying
     updated        updates       updating
+    upped          ups           upping
     used           uses          using
   )
 
@@ -206,7 +238,7 @@ validate_commit_message() {
   # 6. Wrap the body at 72 characters
   # ------------------------------------------------------------------------------
 
-  URL_REGEX='^[[:blank:]]*(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+  URL_REGEX='^[[:blank:]]*(https?|ftp|file|wss?|git|ssh|data|irc|dat)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
 
   for i in "${!COMMIT_MSG_LINES[@]}"; do
     LINE_NUMBER=$((i+1))
@@ -257,6 +289,11 @@ while true; do
   test ${#WARNINGS[@]} -eq 0 && exit 0;
 
   display_warnings
+
+  # if non-interactive don't prompt and exit with an error
+  if [ ! -t 1 ] && [ -z ${FAKE_TTY+x} ]; then
+    exit 1
+  fi
 
   # Ask the question (not using "read -p" as it uses stderr not stdout)
   echo -en "${BLUE}Proceed with commit? [e/y/n/?] ${NC}"
