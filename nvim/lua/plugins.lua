@@ -17,14 +17,6 @@ return require('packer').startup(function()
   -- notice if any plugin make intro disappeared
   use {'tjdevries/train.nvim'}
   use {'tweekmonster/startuptime.vim'}
-  -- use {'sheerun/vim-polyglot', -- ft = {'markdown', 'pug'},
-  --     config = function()
-  --         vim.g.vim_markdown_math = 1
-  --         vim.g.vim_markdown_frontmatter = 1
-  --         vim.g.vim_markdown_folding_disabled = 1
-  --         vim.g.vim_markdown_new_list_item_indent = 0
-  --     end
-  -- }
 
   -- TREE-SITTER
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
@@ -34,6 +26,16 @@ return require('packer').startup(function()
       'nvim-treesitter/playground',
     },
     config = function() require 'treesitter' end
+  }
+
+  use {'plasticboy/vim-markdown',
+    config = function()
+      vim.g.vim_markdown_folding_disabled = 1
+      vim.g.vim_markdown_conceal = 0
+      vim.g.vim_markdown_math = 1
+      vim.g.vim_markdown_frontmatter = 1
+      vim.g.vim_markdown_new_list_item_indent = 0
+    end
   }
 
   -- LANGUAGE-SERVER
