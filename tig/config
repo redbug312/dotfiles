@@ -6,16 +6,22 @@ set git-colors = no
 # KEY-BINDING
 # ref: https://github.com/jonas/tig/wiki/Bindings
 
-bind main g! !git revert %(commit)
-bind main gb !git branch "%(prompt Enter new branch name: )" %(commit)
-bind main gc !git commit -v
-bind main gp !git push origin
-bind main gr !git rebase -i %(commit)
-bind main gt !git tag "%(prompt Enter new tag name: )" %(commit)
+bind main ! ?git revert %(commit)
+bind main + ?git commit --amend
+bind main B ?git branch "%(prompt Enter new branch name: )" %(commit)
+bind main C ?git commit -v
+bind main H ?git cherry-pick %(commit)
+bind main P ?git push origin %(branch)
+bind main S ?git rebase -i %(commit)
+bind main T ?git tag "%(prompt Enter new tag name: )" %(commit)
 
-bind stage 1  stage-update-line
-bind stage gc !git commit -v
-bind stage gp !git push origin
+bind stage 1 stage-update-line
+bind stage C ?git commit -v
+bind stage P ?git push origin
+
+bind refs M ?git merge %(branch) --no-ff
+bind refs R ?git branch -m %(branch) "%(prompt Enter moved branch name: )"
+bind refs : ?git push %(remote) :%(branch)
 
 bind generic g     none
 bind generic gg    move-first-line
@@ -33,11 +39,12 @@ bind generic <Right> none
 
 color date        241     default
 color author      241     default
-color title-blur  241     235
-color title-focus 246     235
+color title-blur  241     234
+color title-focus 246     234
 color cursor      default 234
-color header      248     default
+color header      249     default
 color section     110     default
+color status      249     default
 
 color main-local-tag 103 default
 color main-tag       103 default

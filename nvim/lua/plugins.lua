@@ -17,9 +17,81 @@ return require('packer').startup(function()
   -- notice if any plugin make intro disappeared
   use {'tjdevries/train.nvim'}
   use {'tweekmonster/startuptime.vim'}
+  use {'steelsojka/pears.nvim'}
+  -- use {'voldikss/vim-floaterm',
+  --   config = function()
+  --     vim.g.floaterm_title = '─ $1/$2 '
+  --     vim.g.floaterm_width = 0.6
+  --     vim.g.floaterm_height = 0.9
+  --   end
+  -- }
+  use {'numtostr/FTerm.nvim',
+    config = function()
+      local fterm = require 'FTerm'
+      fterm.setup {
+        dimensions = { height = 0.9, width = 0.6 },
+        border = 'single'
+      }
+    end
+  }
+  -- use {'terrortylor/nvim-comment'}
+  -- use {'b3nj5m1n/kommentary'}
+  use {'terrortylor/nvim-comment',
+    config = function()
+      require('nvim_comment').setup()
+    end
+  }
+  -- use {'tjdevries/express_line.nvim',
+  --   requires = 'nvim-lua/plenary.nvim',
+  --   config = function()
+  --     local generator = function()
+  --       local segments = {}
+  --       local extensions = require('el.extensions')
+  --       table.insert(segments, extensions.mode)
+  --       table.insert(segments, ' ')
+  --       local builtin = require('el.builtin')
+  --       table.insert(segments, builtin.tail_file)
+  --       table.insert(segments, ' ')
+  --       table.insert(segments, builtin.modified_flag)
+  --       local sections = require('el.sections')
+  --       table.insert(segments, sections.split)
+  --       local subscribe = require('el.subscribe')
+  --       -- table.insert(segments,
+  --       --   subscribe.buf_autocmd(
+  --       --     "el_git_branch",
+  --       --     "BufEnter",
+  --       --     function(window, buffer)
+  --       --       return ' '..extensions.git_branch(window, buffer)..'  '
+  --       --     end
+  --       -- ))
+  --       local filetype = function(window, buffer)
+  --         return builtin.filetype_list(window, buffer)..'  '
+  --       end
+  --       table.insert(segments, builtin.filetype_list)
+  --       table.insert(segments, '  ')
+  --       table.insert(segments, builtin.percentage_through_file)
+  --       table.insert(segments, '%%')
+  --       return segments
+  --     end
+  --     require('el').setup { generator = generator }
+  --   end
+  -- }
+  -- use {'lukas-reineke/indent-blankline.nvim',
+  --   branch = 'lua',
+  --   config = function()
+  --     vim.g.indent_blankline_char = '│'
+  --   end
+  -- }
+  -- use {'hrsh7th/nvim-compe',
+  --   config = function()
+  --     local compe = require 'compe'
+  --     compe.setup { enabled = true }
+  --   end
+  -- }
 
   -- TREE-SITTER
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
+  use {'nvim-treesitter/nvim-treesitter',
+    -- run = ':TSUpdate',
     requires = {
       'nvim-treesitter/nvim-treesitter-refactor',
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -47,8 +119,8 @@ return require('packer').startup(function()
     config = function()
       local lsp = require 'lspconfig'
       local on_attach = require'completion'.on_attach
-      lsp.pyls.setup{ on_attach = on_attach }
-      lsp.rust_analyzer.setup{ on_attach = on_attach }
+      lsp.rust_analyzer.setup { on_attach = on_attach }
+      lsp.pyls.setup { on_attach = on_attach }
 
       vim.cmd(
         "autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
@@ -75,7 +147,9 @@ return require('packer').startup(function()
   }
 
   -- COLORSCHEME
-  use {'tjdevries/gruvbuddy.nvim', requires = 'tjdevries/colorbuddy.vim'}
+  use {'tjdevries/gruvbuddy.nvim',
+    requires = 'tjdevries/colorbuddy.vim'
+  }
   use {'/home/redbug312/.config/nvim/cactusbuddy',
     requires = {'tjdevries/colorbuddy.vim', 'glepnir/galaxyline.nvim'},
     config = function()
@@ -87,10 +161,10 @@ return require('packer').startup(function()
   -- BRACKET-MATCHING
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
-  use 'cohama/lexima.vim'
+  -- use 'cohama/lexima.vim'
 
   -- MOTION & OBJECTS
-  use 'tpope/vim-commentary'         -- gc
+  -- use 'tpope/vim-commentary'         -- gc
   use 'christoomey/vim-sort-motion'  -- gs
   use 'junegunn/vim-easy-align'      -- ga
 
@@ -134,10 +208,14 @@ return require('packer').startup(function()
           unmerged  = '(!)',
           renamed   = '(-)',
           untracked = '(+)',
+          deleted   = '(×)',
+          ignored   = '(~)',
         },
         folder = {
-          default = '▶',
-          open    = '▼',
+          default    = '▶',
+          open       = '▼',
+          empty      = '▷',
+          empty_open = '▽',
         }
       }
     end

@@ -1,7 +1,6 @@
 [include]
     path = ~/.config/git/local/config
 [core]
-    editor = nvim
     excludesfile = ~/.config/git/gitignore
     quotepath = false
 [init]

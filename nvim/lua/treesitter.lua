@@ -3,7 +3,7 @@ require 'nvim-treesitter.configs'.setup {
   ensure_installed = 'maintained',
   highlight = {
     enable = true,
-    disable = {'rust'}
+    disable = {'bash', 'rust'}
   },
   indent = {
     enable = true,
@@ -46,6 +46,6 @@ require 'nvim-treesitter.configs'.setup {
         ['aa'] = '@parameter.outer',  -- argument
         ['ia'] = '@parameter.inner',  -- argument
       }
-    }
+    },
   },
 }

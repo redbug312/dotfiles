@@ -24,6 +24,10 @@ map('n', '<leader>fs', '<cmd>lua require"telescope.builtin".lsp_workspace_symbol
 map('n', '<leader>yh', '<cmd>lua require"nvim-tree".toggle()<cr>', o.none)
 map('n', '<leader>yl', '<cmd>TagbarToggle<cr>', o.none)
 map('n', '<leader>yc', '<cmd>lua require"mappings".colorcolumn()<cr>', o.none)
+map('n', '<leader>yp', '<cmd>lua require"mappings".togglepaste()<cr>', o.none)
+
+map('n', '<leader>sn', '<cmd>TSTextobjectSwapNext @parameter.inner<cr>', o.none)
+map('n', '<leader>sp', '<cmd>TSTextobjectSwapPrevious @parameter.inner<cr>', o.none)
 
 map('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', o.none)
 map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
@@ -39,12 +43,18 @@ map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 
 map('n', '<f3>', '<cmd>lua require"gitsigns".blame_line()<cr>', o.none)
 map('n', '<f4>', '<cmd>lua require"gitsigns".preview_hunk()<cr>', o.none)
-map('n', '<f5>', '<cmd>wa<cr><cmd>make build<cr>', o.none)
-map('n', '<f6>', '<cmd>wa<cr><cmd>make start<cr>', o.none)
-map('n', '<f7>', '<cmd>wa<cr><cmd>make debug<cr>', o.none)
-map('n', '<f8>', '<cmd>wa<cr><cmd>make check<cr>', o.none)
-map('n', '<f9>', '<cmd>vsplit term://fish<cr>A', o.none)
+map('n', '<f5>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make build<cr>', o.none)
+map('n', '<f6>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make start<cr>', o.none)
+map('n', '<f7>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make debug<cr>', o.none)
+map('n', '<f8>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make check<cr>', o.none)
+map('n', '<f9>', '<cmd>lua require"FTerm".open()<cr>', o.none)
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>', o.none)
+
+map('t', '<f5>', '<c-\\><c-n><cmd>wa<cr>amake build<cr>', o.none)
+map('t', '<f6>', '<c-\\><c-n><cmd>wa<cr>amake start<cr>', o.none)
+map('t', '<f7>', '<c-\\><c-n><cmd>wa<cr>amake debug<cr>', o.none)
+map('t', '<f8>', '<c-\\><c-n><cmd>wa<cr>amake check<cr>', o.none)
+map('t', '<f9>', '<c-\\><c-n><cmd>lua require"FTerm".toggle()<cr>', o.none)
 
 -- MISCELLANEOUS
 
@@ -98,7 +108,6 @@ map('i', '<leader>"', '<c-r>', o.none)
 map('i', '<leader>[', '<left>', o.none)
 map('i', '<leader>]', '<right>', o.none)
 
-map('i', '<c-w>',   '<c-\\><c-O>db', o.none)
 map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', o.expr)
 map('i', '<s-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', o.expr)
 
@@ -117,7 +126,7 @@ function M.synstack()
   local groups = vim.fn.map(synstack, 'synIDattr(v:val, "name")')
   print(vim.inspect(groups))
 
-  local syntax = vim.fn.synID(row, col+1, 1)
+  local syntax = vim.fn.synID(row, col, 1)
   local target = vim.fn.synIDtrans(syntax)
   if syntax ~= 0 then
     vim.cmd('hi '..vim.fn.synIDattr(syntax, 'name'))
@@ -139,7 +148,11 @@ end
 
 function M.colorcolumn()
   local cc = vim.wo.colorcolumn
-  vim.wo.colorcolumn = (cc == "") and "80,81" or ""
+  vim.wo.colorcolumn = (cc ~= '80,81') and '80,81' or ''
+end
+
+function M.togglepaste()
+  vim.o.paste = not vim.o.paste
 end
 
 return M
