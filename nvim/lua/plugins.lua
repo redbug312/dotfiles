@@ -17,7 +17,11 @@ return require('packer').startup(function()
   -- notice if any plugin make intro disappeared
   use {'tjdevries/train.nvim'}
   use {'tweekmonster/startuptime.vim'}
-  use {'steelsojka/pears.nvim'}
+  use {'steelsojka/pears.nvim',
+    config = function()
+      require('pears').setup()
+    end
+  }
   -- use {'voldikss/vim-floaterm',
   --   config = function()
   --     vim.g.floaterm_title = '─ $1/$2 '
