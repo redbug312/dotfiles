@@ -33,7 +33,7 @@ map('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', o.none)
 map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
 map('n', '<leader>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', o.none)
 map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
-map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
+map('n', '<leader>p', ':lua print(vim.inspect{  })<left><left><left>', o.none)
 
 map('n', 'ga', '<plug>(EasyAlign)', o.remap)
 map('v', 'ga', '<plug>(EasyAlign)', o.remap)
@@ -72,6 +72,9 @@ map('n', '<c-c>', '<c-a>', o.none)  -- <c-a> is tmux prefix key now
 
 map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', o.none)
 map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', o.none)
+map('n', '[h', '<cmd>lua require"gitsigns".prev_hunk()<cr>', o.none)
+map('n', ']h', '<cmd>lua require"gitsigns".next_hunk()<cr>', o.none)
+
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', o.none)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
 map('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
@@ -122,11 +125,11 @@ function M.synstack()
   end
 
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local synstack = vim.fn.synstack(row, col - 1)
+  local synstack = vim.fn.synstack(row, col + 1)
   local groups = vim.fn.map(synstack, 'synIDattr(v:val, "name")')
   print(vim.inspect(groups))
 
-  local syntax = vim.fn.synID(row, col - 1, 1)
+  local syntax = vim.fn.synID(row, col + 1, 1)
   local target = vim.fn.synIDtrans(syntax)
   if syntax ~= 0 then
     vim.cmd('hi '..vim.fn.synIDattr(syntax, 'name'))

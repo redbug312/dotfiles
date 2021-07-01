@@ -22,76 +22,29 @@ return require('packer').startup(function()
       require('pears').setup()
     end
   }
-  -- use {'voldikss/vim-floaterm',
-  --   config = function()
-  --     vim.g.floaterm_title = '─ $1/$2 '
-  --     vim.g.floaterm_width = 0.6
-  --     vim.g.floaterm_height = 0.9
-  --   end
-  -- }
+
   use {'numtostr/FTerm.nvim',
     config = function()
       local fterm = require 'FTerm'
       fterm.setup {
-        dimensions = { height = 0.9, width = 0.6 },
+        dimensions = { height = 0.9, width = 0.7 },
         border = 'single'
       }
     end
   }
-  -- use {'terrortylor/nvim-comment'}
-  -- use {'b3nj5m1n/kommentary'}
+
   use {'terrortylor/nvim-comment',
     config = function()
       require('nvim_comment').setup()
     end
   }
-  -- use {'tjdevries/express_line.nvim',
-  --   requires = 'nvim-lua/plenary.nvim',
-  --   config = function()
-  --     local generator = function()
-  --       local segments = {}
-  --       local extensions = require('el.extensions')
-  --       table.insert(segments, extensions.mode)
-  --       table.insert(segments, ' ')
-  --       local builtin = require('el.builtin')
-  --       table.insert(segments, builtin.tail_file)
-  --       table.insert(segments, ' ')
-  --       table.insert(segments, builtin.modified_flag)
-  --       local sections = require('el.sections')
-  --       table.insert(segments, sections.split)
-  --       local subscribe = require('el.subscribe')
-  --       -- table.insert(segments,
-  --       --   subscribe.buf_autocmd(
-  --       --     "el_git_branch",
-  --       --     "BufEnter",
-  --       --     function(window, buffer)
-  --       --       return ' '..extensions.git_branch(window, buffer)..'  '
-  --       --     end
-  --       -- ))
-  --       local filetype = function(window, buffer)
-  --         return builtin.filetype_list(window, buffer)..'  '
-  --       end
-  --       table.insert(segments, builtin.filetype_list)
-  --       table.insert(segments, '  ')
-  --       table.insert(segments, builtin.percentage_through_file)
-  --       table.insert(segments, '%%')
-  --       return segments
-  --     end
-  --     require('el').setup { generator = generator }
-  --   end
-  -- }
-  -- use {'lukas-reineke/indent-blankline.nvim',
-  --   branch = 'lua',
-  --   config = function()
-  --     vim.g.indent_blankline_char = '│'
-  --   end
-  -- }
-  -- use {'hrsh7th/nvim-compe',
-  --   config = function()
-  --     local compe = require 'compe'
-  --     compe.setup { enabled = true }
-  --   end
-  -- }
+
+  use {'hrsh7th/nvim-compe',
+    config = function()
+      local compe = require 'compe'
+      compe.setup { enabled = true }
+    end
+  }
 
   -- TREE-SITTER
   use {'nvim-treesitter/nvim-treesitter',
@@ -100,10 +53,10 @@ return require('packer').startup(function()
       'nvim-treesitter/nvim-treesitter-refactor',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/playground',
+      'p00f/nvim-ts-rainbow',
     },
     config = function() require 'treesitter' end
   }
-
   use {'plasticboy/vim-markdown',
     config = function()
       vim.g.vim_markdown_folding_disabled = 1
@@ -123,8 +76,20 @@ return require('packer').startup(function()
     config = function()
       local lsp = require 'lspconfig'
       local on_attach = require'completion'.on_attach
-      lsp.rust_analyzer.setup { on_attach = on_attach }
-      lsp.pyls.setup { on_attach = on_attach }
+      lsp.rust_analyzer.setup {
+        on_attach = on_attach,
+        settings = {
+          ["rust-analyzer"] = {
+            diagnostics = {
+              -- github.com/rust-analyzer/rust-analyzer/issues/6714
+              disabled = { "unresolved-extern-crate" },
+            }
+          }
+        }
+      }
+      lsp.pyls.setup {
+        on_attach = on_attach
+      }
 
       vim.cmd(
         "autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
@@ -146,7 +111,7 @@ return require('packer').startup(function()
       'nvim-telescope/telescope-project.nvim',
     },
     config = function()
-      require'telescope'.load_extension'project'
+      require('telescope').load_extension('project')
     end,
   }
 
@@ -155,9 +120,13 @@ return require('packer').startup(function()
     requires = 'tjdevries/colorbuddy.vim'
   }
   use {'/home/redbug312/.config/nvim/cactusbuddy',
-    requires = {'tjdevries/colorbuddy.vim', 'glepnir/galaxyline.nvim'},
+    requires = {
+      'tjdevries/colorbuddy.vim',
+      'tjdevries/express_line.nvim',
+      'nvim-lua/plenary.nvim',
+    },
     config = function()
-      vim.g.cactusbuddy_galaxyline_enabled = true
+      vim.g.cactusbuddy_express_line_enabled = true
       require('colorbuddy').colorscheme('cactusbuddy')
     end
   }
@@ -172,17 +141,6 @@ return require('packer').startup(function()
   use 'christoomey/vim-sort-motion'  -- gs
   use 'junegunn/vim-easy-align'      -- ga
 
-  -- TAGS-GENERATION
-  use {'ludovicchabant/vim-gutentags',
-    config = function()
-      vim.g.gutentags_project_root = {'.tags'}
-      vim.g.gutentags_ctags_tagfile = '.tags'
-      vim.g.gutentags_file_list_command = {
-        markers = { ['.git'] = 'git ls-files', ['.hg']  = 'hg files' }
-      }
-    end
-  }
-
   -- MISCELLANEOUS
   use 'wakatime/vim-wakatime'
   use 'derekwyatt/vim-fswitch'
@@ -194,8 +152,8 @@ return require('packer').startup(function()
     requires = {'nvim-lua/plenary.nvim'},
     config = function() require('gitsigns').setup {
       signs = {
-        add          = { hl = 'LineNr' },
-        change       = { hl = 'LineNr' },
+        add          = { hl = 'LineNr', text = '│' },
+        change       = { hl = 'LineNr', text = '│' },
         delete       = { hl = 'LineNr', text = '═' },
         topdelete    = { hl = 'LineNr', text = '╤' },
         changedelete = { hl = 'LineNr', text = '╧' },

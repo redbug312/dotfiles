@@ -47,5 +47,23 @@ require 'nvim-treesitter.configs'.setup {
         ['ia'] = '@parameter.inner',  -- argument
       }
     },
+    lsp_interop = {
+      enable = true,
+      peek_definition_code = {
+        ['df'] = '@function.outer',
+        ['dc'] = '@class.outer',
+      },
+    },
   },
+
+  rainbow = {
+    enable = false,
+    extended_mode = false,
+    max_file_lines = 1000,
+    colors = {
+      '#949494',
+      '#767676',
+      '#626262',
+    }
+  }
 }
