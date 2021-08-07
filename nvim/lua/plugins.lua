@@ -1,48 +1,91 @@
+local execute = vim.api.nvim_command
 local fn = vim.fn
-local cmd = vim.cmd
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  cmd('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-  cmd 'packadd packer.nvim'
+  fn.system {'git', 'clone',
+    'https://github.com/wbthomason/packer.nvim', install_path}
+  execute 'packadd packer.nvim'
 end
 
-cmd [[packadd packer.nvim]]
-
 return require('packer').startup(function()
-  -- SELF-CONTAINED
-  use {'wbthomason/packer.nvim', opt = true}
 
-  -- STILL IN EXPERIMENT
-  -- notice if any plugin make intro disappeared
-  use {'tjdevries/train.nvim'}
-  use {'tweekmonster/startuptime.vim'}
-  use {'steelsojka/pears.nvim',
+  -- SELF-CONTAINED
+  use 'wbthomason/packer.nvim'
+
+  -- UNDER EXPERIMENT
+  use {'blackCauldron7/surround.nvim',
     config = function()
-      require('pears').setup()
+      local surround = require('surround')
+      surround.setup {
+        mappings_style = 'surround',
+      }
     end
   }
 
-  use {'numtostr/FTerm.nvim',
+  use {'mfussenegger/nvim-dap',
+    requires = {
+      'nvim-telescope/telescope-dap.nvim',
+      'rcarriga/nvim-dap-ui',
+    },
     config = function()
-      local fterm = require 'FTerm'
-      fterm.setup {
-        dimensions = { height = 0.9, width = 0.7 },
-        border = 'single'
+      local dap = require('dap')
+      dap.adapters.lldb = {
+        name = 'lldb',
+        type = 'executable',
+        command = '/usr/bin/lldb-vscode-10',
       }
+      dap.configurations.rust = {{
+        name = 'Launch',
+        type = 'lldb',
+        request = 'launch',
+        program = vim.fn.getcwd()..'/target/debug/adams-leaf-nightly',
+      }}
+      vim.fn.sign_define('DapBreakpoint', {
+        text = '⚑',
+        texthl = 'Title',
+        numhl = 'Title',
+      })
+      vim.fn.sign_define('DapStopped', {
+        text = '▶',
+        texthl = 'Todo',
+        numhl = 'Todo',
+      })
     end
   }
 
   use {'terrortylor/nvim-comment',
     config = function()
-      require('nvim_comment').setup()
+      local comment = require('nvim_comment')
+      comment.setup()
     end
   }
 
   use {'hrsh7th/nvim-compe',
     config = function()
-      local compe = require 'compe'
-      compe.setup { enabled = true }
+      local compe = require('compe')
+      compe.setup {
+        source = {
+          path = true,
+          calc = true,
+          nvim_lsp = true,
+        }
+      }
+    end
+  }
+
+  use {'windwp/nvim-autopairs',
+    requires = 'hrsh7th/nvim-compe',
+    config = function()
+      local npairs = require('nvim-autopairs')
+      local npairs_compe = require('nvim-autopairs.completion.compe')
+      npairs.setup()
+      npairs_compe.setup {
+        map_cr = true,
+        map_complete = true,
+        auto_select = false,
+      }
     end
   }
 
@@ -50,19 +93,40 @@ return require('packer').startup(function()
   use {'nvim-treesitter/nvim-treesitter',
     -- run = ':TSUpdate',
     requires = {
-      'nvim-treesitter/nvim-treesitter-refactor',
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      -- 'nvim-treesitter/nvim-treesitter-refactor',
+      -- 'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/playground',
-      'p00f/nvim-ts-rainbow',
+      'RRethy/nvim-treesitter-textsubjects',
     },
-    config = function() require 'treesitter' end
+    config = function()
+      local treesitter = require('nvim-treesitter.configs')
+      treesitter.setup {
+        ensure_installed = 'maintained',
+        highlight = {
+          enable = true,
+          disable = {'bash', 'rust', 'css'}
+        },
+        indent = {
+          enable = true,
+          disable = {'rust'}
+        },
+        textsubjects = {
+          enable = true,
+          keymaps = {
+            ['.'] = 'textsubjects-smart',
+            [';'] = 'textsubjects-container-outer',
+          }
+        },
+      }
+    end
   }
+
   use {'plasticboy/vim-markdown',
     config = function()
-      vim.g.vim_markdown_folding_disabled = 1
       vim.g.vim_markdown_conceal = 0
-      vim.g.vim_markdown_math = 1
+      vim.g.vim_markdown_folding_disabled = 1
       vim.g.vim_markdown_frontmatter = 1
+      vim.g.vim_markdown_math = 1
       vim.g.vim_markdown_new_list_item_indent = 0
     end
   }
@@ -70,14 +134,18 @@ return require('packer').startup(function()
   -- LANGUAGE-SERVER
   use {'neovim/nvim-lspconfig',
     requires = {
-      'nvim-lua/completion-nvim',
+      -- 'nvim-lua/completion-nvim',
       'nvim-lua/lsp_extensions.nvim',
+      'stevearc/aerial.nvim',
     },
     config = function()
-      local lsp = require 'lspconfig'
-      local on_attach = require'completion'.on_attach
+      local lsp = require('lspconfig')
+      local aerial = require('aerial')
+      local custom_attach = function(client)
+        aerial.on_attach(client)
+      end
       lsp.rust_analyzer.setup {
-        on_attach = on_attach,
+        on_attach = custom_attach,
         settings = {
           ["rust-analyzer"] = {
             diagnostics = {
@@ -87,31 +155,31 @@ return require('packer').startup(function()
           }
         }
       }
-      lsp.pyls.setup {
-        on_attach = on_attach
+      lsp.pylsp.setup {
+        on_attach = custom_attach
       }
-
       vim.cmd(
         "autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
-        ":lua require'lsp_extensions'.inlay_hints{"..
+        ":lua require'lsp_extensions'.inlay_hints {"..
         "  prefix = ' » ', highlight = 'NonText',"..
         "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..
         "}"
       )
-
-      vim.g.completion_trigger_keyword_length = 3
-      vim.cmd 'autocmd BufEnter * lua require"completion".on_attach()'
     end
   }
 
   -- TELESCOPE
   use {'nvim-telescope/telescope.nvim',
     requires = {
-      'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim',
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-project.nvim',
+      'stevearc/aerial.nvim',
     },
     config = function()
-      require('telescope').load_extension('project')
+      local telescope = require('telescope')
+      telescope.load_extension('project')
+      telescope.load_extension('aerial')
     end,
   }
 
@@ -119,6 +187,7 @@ return require('packer').startup(function()
   use {'tjdevries/gruvbuddy.nvim',
     requires = 'tjdevries/colorbuddy.vim'
   }
+
   use {'/home/redbug312/.config/nvim/cactusbuddy',
     requires = {
       'tjdevries/colorbuddy.vim',
@@ -126,43 +195,51 @@ return require('packer').startup(function()
       'nvim-lua/plenary.nvim',
     },
     config = function()
+      local colorbuddy = require('colorbuddy')
       vim.g.cactusbuddy_express_line_enabled = true
-      require('colorbuddy').colorscheme('cactusbuddy')
+      colorbuddy.colorscheme('cactusbuddy')
     end
   }
 
-  -- BRACKET-MATCHING
-  use 'tpope/vim-surround'
-  use 'tpope/vim-repeat'
-  -- use 'cohama/lexima.vim'
-
-  -- MOTION & OBJECTS
-  -- use 'tpope/vim-commentary'         -- gc
+  -- MOTION & TEXT-OBJECTS
   use 'christoomey/vim-sort-motion'  -- gs
   use 'junegunn/vim-easy-align'      -- ga
 
   -- MISCELLANEOUS
   use 'wakatime/vim-wakatime'
-  use 'derekwyatt/vim-fswitch'
+  use 'tjdevries/train.nvim'
+  use 'tweekmonster/startuptime.vim'
 
   -- USER-INTERFACE
-  use 'kshenoy/vim-signature'
-
   use {'lewis6991/gitsigns.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
-    config = function() require('gitsigns').setup {
-      signs = {
-        add          = { hl = 'LineNr', text = '│' },
-        change       = { hl = 'LineNr', text = '│' },
-        delete       = { hl = 'LineNr', text = '═' },
-        topdelete    = { hl = 'LineNr', text = '╤' },
-        changedelete = { hl = 'LineNr', text = '╧' },
-      },
-    } end
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      local gitsigns = require('gitsigns')
+      gitsigns.setup {
+        signs = {
+          add          = { hl = 'LineNr', text = '│' },
+          change       = { hl = 'LineNr', text = '│' },
+          delete       = { hl = 'LineNr', text = '═' },
+          topdelete    = { hl = 'LineNr', text = '╤' },
+          changedelete = { hl = 'LineNr', text = '╧' },
+        }
+      }
+    end
+  }
+
+  use {'numtostr/FTerm.nvim',
+    config = function()
+      local fterm = require('FTerm')
+      fterm.setup {
+        dimensions = { height = 0.9, width = 0.7 },
+        border = 'single'
+      }
+    end
   }
 
   use {'kyazdani42/nvim-tree.lua',
     config = function()
+      vim.g.nvim_tree_update_cwd = 1
       vim.g.nvim_tree_icons = {
         git = {
           unstaged  = '(△)',
@@ -180,14 +257,29 @@ return require('packer').startup(function()
           empty_open = '▽',
         }
       }
+      vim.g.nvim_tree_show_icons = {
+        git = 1,
+        folders = 1,
+        files = 0,
+        folder_arrows = 0,
+      }
     end
   }
 
-  use {'majutsushi/tagbar',
-    requires = 'lvht/tagbar-markdown',
+  use {'stevearc/aerial.nvim',
     config = function()
-      vim.g.tagbar_autofocus = 1
-      vim.g.tagbar_sort = 0
+      vim.g.aerial = {
+        placement_editor_edge = true,
+        manage_folds = true,
+        max_width = 30,
+        icons = {
+          Enum = 'ᴇᴍ',
+          Function = 'ꜰɴ',
+          Interface = 'ɪꜰ',
+          Struct = 'ꜱᴛ',
+          Collapsed = ' ▷',
+        },
+      }
     end
   }
 

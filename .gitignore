@@ -32,5 +32,6 @@ elinks/gotohist
 fish/fishd.*
 git/local/config
 nvim/plugin/packer_compiled.vim
+nvim/plugin/packer_compiled.lua
 vifm/vifm-help.txt
 vifm/vifminfo
