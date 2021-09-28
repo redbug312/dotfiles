@@ -54,17 +54,17 @@ map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 
 map('n', '<f3>', '<cmd>lua require"gitsigns".blame_line()<cr>', o.none)
 map('n', '<f4>', '<cmd>lua require"gitsigns".preview_hunk()<cr>', o.none)
-map('n', '<f5>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make build<cr>', o.none)
-map('n', '<f6>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make start<cr>', o.none)
-map('n', '<f7>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make debug<cr>', o.none)
-map('n', '<f8>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr>make check<cr>', o.none)
+map('n', '<f5>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make build<cr>', o.none)
+map('n', '<f6>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make start<cr>', o.none)
+map('n', '<f7>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make debug<cr>', o.none)
+map('n', '<f8>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make check<cr>', o.none)
 map('n', '<f9>', '<cmd>lua require"FTerm".open()<cr>', o.none)
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>', o.none)
 
-map('t', '<f5>', '<c-\\><c-n><cmd>wa<cr>amake build<cr>', o.none)
-map('t', '<f6>', '<c-\\><c-n><cmd>wa<cr>amake start<cr>', o.none)
-map('t', '<f7>', '<c-\\><c-n><cmd>wa<cr>amake debug<cr>', o.none)
-map('t', '<f8>', '<c-\\><c-n><cmd>wa<cr>amake check<cr>', o.none)
+map('t', '<f5>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make build<cr>', o.none)
+map('t', '<f6>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make start<cr>', o.none)
+map('t', '<f7>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make debug<cr>', o.none)
+map('t', '<f8>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make check<cr>', o.none)
 map('t', '<f9>', '<c-\\><c-n><cmd>lua require"FTerm".toggle()<cr>', o.none)
 
 -- MISCELLANEOUS
@@ -113,9 +113,9 @@ map('c', '<c-_>', '<cr>:%s`<C-r>/``gc<left><left><left>', o.none)
 map('c', 'w!!', 'w !sudo tee % >/dev/null', o.none)
 
 map('i', '<leader>flag', '⚑', o.none)
-map('n', '<leader><leader>', '<esc><cmd>let @/="⚑"<cr>ncl', o.none)
-map('v', '<leader><leader>', '<esc><cmd>let @/="⚑"<cr>ncl', o.none)
-map('i', '<leader><leader>', '<esc><cmd>let @/="⚑"<cr>ncl', o.none)
+map('n', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
+map('v', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
+map('i', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
 
 -- <c-o>,yp to toggle paste mode
 map('i', '<leader>dbg', 'println!<c-o>,yp("{:?}", &);<c-o>T&<c-o>,yp', o.remap)

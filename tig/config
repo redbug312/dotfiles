@@ -12,7 +12,7 @@ bind main B ?git branch "%(prompt Enter new branch name: )" %(commit)
 bind main C ?git commit -v
 bind main H ?git cherry-pick %(commit)
 bind main P ?git push origin %(branch)
-bind main S ?git rebase -i %(commit)
+bind main S ?git rebase -i %(commit)^1
 bind main T ?git tag "%(prompt Enter new tag name: )" %(commit)
 
 bind stage 1 stage-update-line
@@ -20,6 +20,7 @@ bind stage C ?git commit -v
 bind stage P ?git push origin
 
 bind refs M ?git merge %(branch) --no-ff
+bind refs F ?git merge %(branch) --ff
 bind refs R ?git branch -m %(branch) "%(prompt Enter moved branch name: )"
 bind refs : ?git push %(remote) :%(branch)
 

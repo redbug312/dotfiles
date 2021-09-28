@@ -36,18 +36,19 @@ function fish_prompt --description 'Write out the prompt'
         echo (jobs | wc -l)
     end
 
-
     switch (_display)
         case ''
-            printf "%s %s %s" (set_color normal) (_working_dir) (set_color normal)
-            printf ">%s" (set_color normal)
+            printf "%s %s " (set_color normal) (_working_dir)
+            printf "%s>" (set_color normal)
         case :0.0
-            printf "%s%s %s %s" (set_color normal) (set_color -ob black) (_working_dir) (set_color normal)
-            printf "%s%s" (set_color black) (set_color normal)
+            printf "%s%s %s " (set_color normal) (set_color -ob black) (_working_dir)
+            printf "%s%s" (set_color normal) (set_color black)
         case '*'
-            printf "%s%s %s %s" (set_color normal) (set_color -ob black) (_working_dir) (set_color normal)
-            printf "%s%s%s" (set_color black) (set_color -o black) (set_color normal)
+            printf "%s%s %s " (set_color normal) (set_color -ob black) (_working_dir)
+            printf "%s%s%s" (set_color normal) (set_color black) (set_color -o black)
     end
+
+    set_color normal
 
     if [ -n (_python_virtualenv) ]
         printf "%s (%s)" (set_color normal) (basename (_python_virtualenv))

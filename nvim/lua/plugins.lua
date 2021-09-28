@@ -15,11 +15,18 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- UNDER EXPERIMENT
+
+  use {'digitaltoad/vim-pug'}
+
   use {'blackCauldron7/surround.nvim',
     config = function()
       local surround = require('surround')
       surround.setup {
         mappings_style = 'surround',
+        pairs = {
+          nestable = { {"(", ")"}, {"[", "]"}, {"{", "}"}, {"<", ">"} },
+          linear = { {"'", "'"}, {'"', '"'} },
+        }
       }
     end
   }
@@ -30,6 +37,9 @@ return require('packer').startup(function()
       'rcarriga/nvim-dap-ui',
     },
     config = function()
+      local pwd = function()
+        return vim.fn.getcwd()
+      end
       local dap = require('dap')
       dap.adapters.lldb = {
         name = 'lldb',
@@ -40,7 +50,9 @@ return require('packer').startup(function()
         name = 'Launch',
         type = 'lldb',
         request = 'launch',
-        program = vim.fn.getcwd()..'/target/debug/adams-leaf-nightly',
+        program = pwd()..'/target/debug/adams-leaf-nightly',
+        -- cwd = '${workspaceFolder}',
+        -- stopOnEntry = true,
       }}
       vim.fn.sign_define('DapBreakpoint', {
         text = '⚑',
@@ -149,9 +161,12 @@ return require('packer').startup(function()
         settings = {
           ["rust-analyzer"] = {
             diagnostics = {
-              -- github.com/rust-analyzer/rust-analyzer/issues/6714
-              disabled = { "unresolved-extern-crate" },
-            }
+              disabled = {
+                "unresolved-extern-crate", -- rust-analyzer#6714
+                "unresolved-proc-macro",   -- rust-analyzer#7497
+                "inactive-code",
+              },
+            },
           }
         }
       }
@@ -271,13 +286,30 @@ return require('packer').startup(function()
       vim.g.aerial = {
         placement_editor_edge = true,
         manage_folds = true,
+        min_width = 30,
         max_width = 30,
+        -- filter_kind = false,
+        filter_kind = {
+          'Class',
+          'Constructor',
+          'Enum',
+          'Field',
+          'Function',
+          'Interface',
+          'Method',
+          'Module',
+          -- 'Object',
+          'Struct',
+        },
         icons = {
+          Collapsed = ' ▷',
           Enum = 'ᴇᴍ',
+          Field = 'ꜰᴅ',
           Function = 'ꜰɴ',
           Interface = 'ɪꜰ',
+          Module = 'ᴍᴅ',
+          -- Object = 'ᴏᴊ',
           Struct = 'ꜱᴛ',
-          Collapsed = ' ▷',
         },
       }
     end
