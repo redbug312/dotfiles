@@ -254,8 +254,8 @@ return require('packer').startup(function()
 
   use {'kyazdani42/nvim-tree.lua',
     config = function()
-      vim.g.nvim_tree_update_cwd = 1
       vim.g.nvim_tree_icons = {
+        default = '',
         git = {
           unstaged  = '(△)',
           staged    = '(✓)',
@@ -277,6 +277,10 @@ return require('packer').startup(function()
         folders = 1,
         files = 0,
         folder_arrows = 0,
+      }
+      local nvim_tree = require('nvim-tree')
+      nvim_tree.setup {
+        update_cwd = true,
       }
     end
   }
