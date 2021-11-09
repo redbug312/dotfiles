@@ -5,10 +5,12 @@ SETUVAR __fish_init_2_39_8:\x1d
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_initialized:3100
 SETUVAR _fish_abbr_ag:rg
+SETUVAR _fish_abbr_conf:sudo\x20nvim\x20/etc/NetworkManager/NetworkManager\x2econf
 SETUVAR _fish_abbr_fatal:journalctl\x20\x2db\x20\x2d1\x20\x2dr
 SETUVAR _fish_abbr_goose:ssh\x20\x2dY\x20redbug312\x40\x24SERVER_GOOSE
 SETUVAR _fish_abbr_grep:rg
 SETUVAR _fish_abbr_linux4:ssh\x20\x2dY\x20b04902073\x40\x24SERVER_LINUX4
+SETUVAR _fish_abbr_nm:sudo\x20nvim\x20/etc/NetworkManager/NetworkManager\x2econf
 SETUVAR _fish_abbr_open:xdg\x2dopen
 SETUVAR _fish_abbr_peanut:ss\x20\x2dpeanut
 SETUVAR _fish_abbr_ptt:ssh\x20bbsu\x40ptt\x2ecc
@@ -21,7 +23,7 @@ SETUVAR _fish_abbr_tmux:tmux\x20new\x2dsession\x20\x2dA\x20\x2ds\x200
 SETUVAR _fish_abbr_tunnel:ssh\x20\x2dvNR\x208001\x3alocalhost\x3a8000\x20\x24SERVER_GOOSE
 SETUVAR _fish_abbr_vim:nvim
 SETUVAR _fish_abbr_weather:curl\x20http\x3a//v2\x2ewttr\x2ein/
-SETUVAR _fish_abbr_yank:tee\x20/dev/pts/2\x20\x7c\x20xsel\x20\x2d\x2dclipboard
+SETUVAR _fish_abbr_yank:xsel\x20\x2d\x2dclipboard
 SETUVAR _fish_abbr_yt:watch\x2dyoutube
 SETUVAR fish_color_autosuggestion:747369
 SETUVAR fish_color_cancel:normal

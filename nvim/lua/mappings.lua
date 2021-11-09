@@ -8,7 +8,6 @@ local o = {
 
 map('n', '<leader>fa', '<cmd>lua require"telescope.builtin".builtin()<cr>', o.none)
 map('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers{show_all_buffers = true}<cr>', o.none)
-map('n', '<leader>fc', '<cmd>lua require"telescope.builtin".lsp_code_actions(require("telescope.themes").get_dropdown())<cr>', o.none)
 map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
 map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
 map('n', '<leader>fh', '<cmd>lua require"telescope.builtin".highlights()<cr>', o.none)
@@ -40,6 +39,7 @@ map('n', '<leader>dq', '<cmd>lua require"dap".close()<cr>', o.none)
 map('n', '<leader>dr', '<cmd>lua require"dap".repl.toggle()<cr>', o.none)
 map('n', '<leader>ds', '<cmd>lua require"dap".step_into()<cr>', o.none)
 
+map('n', '<leader>a', '<cmd>lua require"telescope.builtin".lsp_code_actions(require("telescope.themes").get_dropdown())<cr>', o.none)
 map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
 map('n', '<leader>l', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', o.none)
 map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)

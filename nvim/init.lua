@@ -29,6 +29,7 @@ opt.softtabstop = 4
 opt.tabstop = 4
 opt.spelllang = 'en_us,cjk'
 opt.formatoptions = 'tcqjnB'
+opt.textwidth = 80
 
 bo.expandtab = true
 bo.shiftwidth = 4
@@ -36,6 +37,7 @@ bo.softtabstop = 4
 bo.tabstop = 4
 bo.spelllang = 'en_us,cjk'
 bo.formatoptions = 'tcqjnB'
+bo.textwidth = 80
 
 -- SEARCHING
 opt.ignorecase = true
@@ -54,6 +56,7 @@ opt.termguicolors = true
 opt.background = 'dark'
 opt.showmode = false
 opt.scrolloff = 3
+opt.showtabline = 0
 
 -- AUTOCMDS
 cmd 'autocmd FileType gitcommit  setlocal spell tw=72 fo+=t'
@@ -62,5 +65,6 @@ cmd 'autocmd FileType gnuplot    setlocal cms=#%s'
 cmd 'autocmd FileType lua        setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd FileType yaml       setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd FileType javascript setlocal sw=2 ts=2 sts=2'
+cmd 'autocmd FileType toml       setlocal cms=#%s'
 cmd 'autocmd BufWritePost plugins.lua luafile %:p'
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'

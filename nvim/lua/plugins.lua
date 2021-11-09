@@ -74,29 +74,35 @@ return require('packer').startup(function()
     end
   }
 
-  use {'hrsh7th/nvim-compe',
+  use {'hrsh7th/nvim-cmp',
     config = function()
-      local compe = require('compe')
-      compe.setup {
-        source = {
-          path = true,
-          calc = true,
-          nvim_lsp = true,
+      local cmp = require('cmp')
+      cmp.setup {
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
         }
       }
     end
   }
 
   use {'windwp/nvim-autopairs',
-    requires = 'hrsh7th/nvim-compe',
+    requires = 'hrsh7th/nvim-cmp',
     config = function()
       local npairs = require('nvim-autopairs')
-      local npairs_compe = require('nvim-autopairs.completion.compe')
-      npairs.setup()
-      npairs_compe.setup {
+      local npairs_cmp = require('nvim-autopairs.completion.cmp')
+      npairs.setup {
+        fast_wrap = {},
+      }
+      npairs_cmp.setup {
         map_cr = true,
         map_complete = true,
         auto_select = false,
+        insert = false,
+        map_char = {
+          all = '(',
+          tex = '{',
+        }
       }
     end
   }
@@ -106,7 +112,7 @@ return require('packer').startup(function()
     -- run = ':TSUpdate',
     requires = {
       -- 'nvim-treesitter/nvim-treesitter-refactor',
-      -- 'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/playground',
       'RRethy/nvim-treesitter-textsubjects',
     },
