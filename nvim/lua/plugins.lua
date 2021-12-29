@@ -122,11 +122,11 @@ return require('packer').startup(function()
         ensure_installed = 'maintained',
         highlight = {
           enable = true,
-          disable = {'bash', 'rust', 'css'}
+          disable = {'bash', 'rust', 'css', 'latex'}
         },
         indent = {
           enable = true,
-          disable = {'rust'}
+          disable = {'rust', 'latex'}
         },
         textsubjects = {
           enable = true,
@@ -195,12 +195,14 @@ return require('packer').startup(function()
       'nvim-lua/popup.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-project.nvim',
+      'nvim-telescope/telescope-bibtex.nvim',
       'stevearc/aerial.nvim',
     },
     config = function()
       local telescope = require('telescope')
       telescope.load_extension('project')
       telescope.load_extension('aerial')
+      telescope.load_extension('bibtex')
     end,
   }
 

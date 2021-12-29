@@ -9,6 +9,9 @@ g.undodir = vim.fn.stdpath('cache')..'/undodir'
 g.python3_host_prog = '/usr/bin/python3'
 opt.compatible = false
 
+g.tex_flavor = 'latex'
+opt.formatprg = 'par -w 80'
+
 require 'plugins'   -- located ~/.config/nvim/lua/plugins.lua
 require 'mappings'  -- located ~/.config/nvim/lua/mappings.lua
 
@@ -49,7 +52,7 @@ opt.hlsearch = true
 wo.list = true
 wo.number = true
 wo.cursorline = true
-wo.colorcolumn = '80,81'
+wo.colorcolumn = '81,82'
 opt.listchars = opt.listchars..',tab:» ,trail:·'
 opt.fillchars = 'fold:╴'
 opt.termguicolors = true
@@ -66,5 +69,6 @@ cmd 'autocmd FileType lua        setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd FileType yaml       setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd FileType javascript setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd FileType toml       setlocal cms=#%s'
+cmd 'autocmd FileType tex        setlocal sw=2 ts=2 sts=2 tw=80 fo+=t'
 cmd 'autocmd BufWritePost plugins.lua luafile %:p'
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'

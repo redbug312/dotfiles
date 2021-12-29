@@ -8,6 +8,7 @@ local o = {
 
 map('n', '<leader>fa', '<cmd>lua require"telescope.builtin".builtin()<cr>', o.none)
 map('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers{show_all_buffers = true}<cr>', o.none)
+map('n', '<leader>fc', '<cmd>lua require"telescope".extensions.bibtex.cite()<cr>', o.none)
 map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
 map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
 map('n', '<leader>fh', '<cmd>lua require"telescope.builtin".highlights()<cr>', o.none)
