@@ -75,33 +75,17 @@ return require('packer').startup(function()
   }
 
   use {'hrsh7th/nvim-cmp',
+    requires = 'windwp/nvim-autopairs',
     config = function()
       local cmp = require('cmp')
+      local autopairs = require('nvim-autopairs')
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      autopairs.setup {}
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
       cmp.setup {
         sources = {
           { name = 'nvim_lsp' },
           { name = 'buffer' },
-        }
-      }
-    end
-  }
-
-  use {'windwp/nvim-autopairs',
-    requires = 'hrsh7th/nvim-cmp',
-    config = function()
-      local npairs = require('nvim-autopairs')
-      local npairs_cmp = require('nvim-autopairs.completion.cmp')
-      npairs.setup {
-        fast_wrap = {},
-      }
-      npairs_cmp.setup {
-        map_cr = true,
-        map_complete = true,
-        auto_select = false,
-        insert = false,
-        map_char = {
-          all = '(',
-          tex = '{',
         }
       }
     end
@@ -180,7 +164,7 @@ return require('packer').startup(function()
         on_attach = custom_attach
       }
       vim.cmd(
-        "autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
+        "autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
         ":lua require'lsp_extensions'.inlay_hints {"..
         "  prefix = ' » ', highlight = 'NonText',"..
         "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..

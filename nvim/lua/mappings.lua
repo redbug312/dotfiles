@@ -173,34 +173,22 @@ function M.toggle_paste()
 end
 
 function M.prev_diagnostic()
-  local enabled = #vim.lsp.buf_get_clients(0) ~= 0
-  if not enabled then
-    return nil
-  end
-
-  local _, client = next(vim.lsp.buf_get_clients(0))
-  local counts = {
-    error = vim.lsp.diagnostic.get_count(0, 'Error', client.id),
-  }
-
-  vim.lsp.diagnostic.goto_prev {
-    severity_limit = (counts.error > 0) and 'Error' or 'Warning'
+  local diag = vim.diagnostic
+  local errors = diag.get(0, {
+    severity = diag.severity.ERROR
+  })
+  diag.goto_prev {
+    sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }
 end
 
 function M.next_diagnostic()
-  local enabled = #vim.lsp.buf_get_clients(0) ~= 0
-  if not enabled then
-    return nil
-  end
-
-  local _, client = next(vim.lsp.buf_get_clients(0))
-  local counts = {
-    error = vim.lsp.diagnostic.get_count(0, 'Error', client.id),
-  }
-
-  vim.lsp.diagnostic.goto_next {
-    severity_limit = (counts.error > 0) and 'Error' or 'Warning'
+  local diag = vim.diagnostic
+  local errors = diag.get(0, {
+    severity = diag.severity.ERROR
+  })
+  diag.goto_next {
+    sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }
 end
 
