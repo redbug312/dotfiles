@@ -106,7 +106,7 @@ return require('packer').startup(function()
         ensure_installed = 'maintained',
         highlight = {
           enable = true,
-          disable = {'bash', 'rust', 'css', 'latex'}
+          disable = {'bash', 'rust', 'css', 'latex', 'make'}
         },
         indent = {
           enable = true,

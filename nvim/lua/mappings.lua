@@ -12,7 +12,7 @@ map('n', '<leader>fc', '<cmd>lua require"telescope".extensions.bibtex.cite()<cr>
 map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
 map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
 map('n', '<leader>fh', '<cmd>lua require"telescope.builtin".highlights()<cr>', o.none)
-map('n', '<leader>fl', '<cmd>lua require"telescope.builtin".lsp_workspace_diagnostics()<cr>', o.none)
+map('n', '<leader>fl', '<cmd>lua require"telescope.builtin".diagnostics()<cr>', o.none)
 map('n', '<leader>fm', '<cmd>lua require"telescope.builtin".marks()<cr>', o.none)
 map('n', '<leader>fo', '<cmd>lua require"telescope.builtin".oldfiles()<cr>', o.none)
 map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{change_dir = true}<cr>', o.none)
@@ -25,6 +25,7 @@ map('n', '<leader>yh', '<cmd>lua require"nvim-tree".toggle()<cr>', o.none)
 map('n', '<leader>yl', '<cmd>lua require"aerial".toggle()<cr>', o.none)
 map('n', '<leader>yc', '<cmd>lua require"mappings".toggle_colorcolumn()<cr>', o.none)
 map('n', '<leader>yp', '<cmd>lua require"mappings".toggle_paste()<cr>', o.none)
+map('n', '<leader>yd', '<cmd>lua require"mappings".toggle_docs()<cr>', o.none)
 
 map('n', '<leader>sn', '<cmd>TSTextobjectSwapNext @parameter.inner<cr>', o.none)
 map('n', '<leader>sp', '<cmd>TSTextobjectSwapPrevious @parameter.inner<cr>', o.none)
@@ -42,7 +43,7 @@ map('n', '<leader>ds', '<cmd>lua require"dap".step_into()<cr>', o.none)
 
 map('n', '<leader>a', '<cmd>lua require"telescope.builtin".lsp_code_actions(require("telescope.themes").get_dropdown())<cr>', o.none)
 map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
-map('n', '<leader>l', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', o.none)
+map('n', '<leader>l', '<cmd>lua vim.diagnostic.open_float()<cr>', o.none)
 map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
 map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
 
@@ -54,10 +55,10 @@ map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 
 map('n', '<f3>', '<cmd>lua require"gitsigns".blame_line()<cr>', o.none)
 map('n', '<f4>', '<cmd>lua require"gitsigns".preview_hunk()<cr>', o.none)
-map('n', '<f5>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make build<cr>', o.none)
-map('n', '<f6>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make start<cr>', o.none)
-map('n', '<f7>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make debug<cr>', o.none)
-map('n', '<f8>', '<cmd>wa<cr><cmd>lua require"FTerm".open()<cr><c-u>make check<cr>', o.none)
+map('n', '<f5>', '<cmd>lua require"mappings".make"build"<cr>', o.none)
+map('n', '<f6>', '<cmd>lua require"mappings".make"start"<cr>', o.none)
+map('n', '<f7>', '<cmd>lua require"mappings".make"debug"<cr>', o.none)
+map('n', '<f8>', '<cmd>lua require"mappings".make"check"<cr>', o.none)
 map('n', '<f9>', '<cmd>lua require"FTerm".open()<cr>', o.none)
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>', o.none)
 
@@ -172,6 +173,16 @@ function M.toggle_paste()
   vim.o.paste = not vim.o.paste
 end
 
+function M.toggle_docs()
+  local colorbuddy = require('colorbuddy')
+  local Color, c, Group, g, s = colorbuddy.setup()
+  if g.rustCommentLineDoc.parent.name == 'darkest' then
+    Group.new('rustCommentLineDoc', c.blue, c.none, s.none)
+  else
+    Group.new('rustCommentLineDoc', c.darkest, c.none, s.none)
+  end
+end
+
 function M.prev_diagnostic()
   local diag = vim.diagnostic
   local errors = diag.get(0, {
@@ -190,6 +201,14 @@ function M.next_diagnostic()
   diag.goto_next {
     sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }
+end
+
+function M.make(target)
+  local fterm = require('FTerm')
+  fterm.run {'make', target}
+  fterm.close()
+  vim.cmd('stopinsert')
+  print("job sent: make "..target)
 end
 
 return M
