@@ -1,4 +1,4 @@
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 local o = {
   none   = { expr = false, noremap = true,  nowait = false },
   expr   = { expr = true,  noremap = true,  nowait = false },
@@ -6,45 +6,49 @@ local o = {
   nowait = { expr = false, noremap = true,  nowait = true  },
 }
 
-map('n', '<leader>fa', '<cmd>lua require"telescope.builtin".builtin()<cr>', o.none)
-map('n', '<leader>fb', '<cmd>lua require"telescope.builtin".buffers{show_all_buffers = true}<cr>', o.none)
-map('n', '<leader>fc', '<cmd>lua require"telescope".extensions.bibtex.cite()<cr>', o.none)
-map('n', '<leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>', o.none)
-map('n', '<leader>fg', '<cmd>lua require"telescope.builtin".live_grep()<cr>', o.none)
-map('n', '<leader>fh', '<cmd>lua require"telescope.builtin".highlights()<cr>', o.none)
-map('n', '<leader>fl', '<cmd>lua require"telescope.builtin".diagnostics()<cr>', o.none)
-map('n', '<leader>fm', '<cmd>lua require"telescope.builtin".marks()<cr>', o.none)
-map('n', '<leader>fo', '<cmd>lua require"telescope.builtin".oldfiles()<cr>', o.none)
-map('n', '<leader>fp', '<cmd>lua require"telescope".extensions.project.project{change_dir = true}<cr>', o.none)
-map('n', '<leader>fr', '<cmd>lua require"telescope.builtin".lsp_references()<cr>', o.none)
-map('n', '<leader>fs', '<cmd>lua require"telescope".extensions.aerial.aerial()<cr>', o.none)
+map('n', '<leader>fa', require'telescope.builtin'.builtin, o.none)
+map('n', '<leader>fb', require'telescope.builtin'.buffers, o.none)
+map('n', '<leader>ff', require'telescope.builtin'.find_files, o.none)
+map('n', '<leader>fg', require'telescope.builtin'.live_grep, o.none)
+map('n', '<leader>fh', require'telescope.builtin'.highlights, o.none)
+map('n', '<leader>fl', require'telescope.builtin'.diagnostics, o.none)
+map('n', '<leader>fm', require'telescope.builtin'.marks, o.none)
+map('n', '<leader>fo', require'telescope.builtin'.oldfiles, o.none)
+map('n', '<leader>fp', require'telescope'.extensions.project.project, o.none)
+map('n', '<leader>fr', require'telescope.builtin'.lsp_references, o.none)
+map('n', '<leader>fs', require'telescope'.extensions.aerial.aerial, o.none)
 
--- TODO explicitly define gitsigns mappings
+map('n', '<leader>hs', require'gitsigns'.stage_hunk, o.none)
+map('n', '<leader>hr', require'gitsigns'.reset_hunk, o.none)
+map('n', '<leader>hu', require'gitsigns'.undo_stage_hunk, o.none)
 
-map('n', '<leader>yh', '<cmd>lua require"nvim-tree".toggle()<cr>', o.none)
-map('n', '<leader>yl', '<cmd>lua require"aerial".toggle()<cr>', o.none)
-map('n', '<leader>yc', '<cmd>lua require"mappings".toggle_colorcolumn()<cr>', o.none)
-map('n', '<leader>yp', '<cmd>lua require"mappings".toggle_paste()<cr>', o.none)
-map('n', '<leader>yd', '<cmd>lua require"mappings".toggle_docs()<cr>', o.none)
+map('n', '<leader>yb', require'gitsigns'.toggle_current_line_blame, o.none)
+map('n', '<leader>yc', function() require'mappings'.toggle_colorcolumn() end, o.none)
+map('n', '<leader>yd', function() require'mappings'.toggle_docs() end, o.none)
+map('n', '<leader>yg', require'gitsigns'.toggle_deleted, o.none)
+map('n', '<leader>yh', require'nvim-tree'.toggle, o.none)
+map('n', '<leader>yl', require'aerial'.toggle, o.none)
+map('n', '<leader>yp', function() require'mappings'.toggle_paste() end, o.none)
+map('n', '<leader>yw', function() require'mappings'.toggle_wrap() end, o.none)
 
 map('n', '<leader>sn', '<cmd>TSTextobjectSwapNext @parameter.inner<cr>', o.none)
 map('n', '<leader>sp', '<cmd>TSTextobjectSwapPrevious @parameter.inner<cr>', o.none)
 
-map('n', '<leader>db', '<cmd>lua require"dap".toggle_breakpoint()<cr>', o.none)
-map('n', '<leader>dc', '<cmd>lua require"dap".continue()<cr>', o.none)
-map('n', '<leader>ddb', '<cmd>lua require"telescope".extensions.dap.list_breakpoints()<cr>', o.none)
-map('n', '<leader>ddf', '<cmd>lua require"telescope".extensions.dap.frames()<cr>', o.none)
-map('n', '<leader>ddv', '<cmd>lua require"telescope".extensions.dap.variables()<cr>', o.none)
-map('n', '<leader>df', '<cmd>lua require"dap".step_out()<cr>', o.none)
-map('n', '<leader>dn', '<cmd>lua require"dap".step_over()<cr>', o.none)
-map('n', '<leader>dq', '<cmd>lua require"dap".close()<cr>', o.none)
-map('n', '<leader>dr', '<cmd>lua require"dap".repl.toggle()<cr>', o.none)
-map('n', '<leader>ds', '<cmd>lua require"dap".step_into()<cr>', o.none)
+map('n', '<leader>db', require'dap'.toggle_breakpoint, o.none)
+map('n', '<leader>dc', require'dap'.continue, o.none)
+map('n', '<leader>ddb', require'telescope'.extensions.dap.list_breakpoints, o.none)
+map('n', '<leader>ddf', require'telescope'.extensions.dap.frames, o.none)
+map('n', '<leader>ddv', require'telescope'.extensions.dap.variables, o.none)
+map('n', '<leader>df', require'dap'.step_out, o.none)
+map('n', '<leader>dn', require'dap'.step_over, o.none)
+map('n', '<leader>dq', require'dap'.close, o.none)
+map('n', '<leader>dr', require'dap'.repl.toggle, o.none)
+map('n', '<leader>ds', require'dap'.step_into, o.none)
 
-map('n', '<leader>a', '<cmd>lua require"telescope.builtin".lsp_code_actions(require("telescope.themes").get_dropdown())<cr>', o.none)
-map('n', '<leader>c', '<cmd>lua require"mappings".synstack()<cr>', o.none)
-map('n', '<leader>l', '<cmd>lua vim.diagnostic.open_float()<cr>', o.none)
-map('n', '<leader>t', '<cmd>lua require"mappings".train()<cr>', o.none)
+map('n', '<leader>a', vim.lsp.buf.code_action, o.none)
+map('n', '<leader>c', function() require'mappings'.synstack() end, o.none)
+map('n', '<leader>l', function() vim.diagnostic.open_float{border='single'} end, o.none)
+map('n', '<leader>t', function() require'mappings'.train() end, o.none)
 map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
 
 map('n', 'ga', '<plug>(EasyAlign)', o.remap)
@@ -53,20 +57,20 @@ map('n', 'g-', '<cmd>%s`\\s\\+$``e<cr>``', o.none)
 
 -- FN SHORTCUTS
 
-map('n', '<f3>', '<cmd>lua require"gitsigns".blame_line()<cr>', o.none)
-map('n', '<f4>', '<cmd>lua require"gitsigns".preview_hunk()<cr>', o.none)
-map('n', '<f5>', '<cmd>lua require"mappings".make"build"<cr>', o.none)
-map('n', '<f6>', '<cmd>lua require"mappings".make"start"<cr>', o.none)
-map('n', '<f7>', '<cmd>lua require"mappings".make"debug"<cr>', o.none)
-map('n', '<f8>', '<cmd>lua require"mappings".make"check"<cr>', o.none)
-map('n', '<f9>', '<cmd>lua require"FTerm".open()<cr>', o.none)
+map('n', '<f3>', require'gitsigns'.blame_line, o.none)
+map('n', '<f4>', require'gitsigns'.preview_hunk, o.none)
+map('n', '<f5>', function() require'FTerm'.scratch{cmd='make build'} end, o.none)
+map('n', '<f6>', function() require'FTerm'.scratch{cmd='make start'} end, o.none)
+map('n', '<f7>', function() require'FTerm'.scratch{cmd='make debug'} end, o.none)
+map('n', '<f8>', function() require'FTerm'.scratch{cmd='make check'} end, o.none)
+map('n', '<f9>', require'FTerm'.open, o.none)
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>', o.none)
 
-map('t', '<f5>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make build<cr>', o.none)
-map('t', '<f6>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make start<cr>', o.none)
-map('t', '<f7>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make debug<cr>', o.none)
-map('t', '<f8>', '<c-\\><c-n><cmd>wa<cr>a<c-u>make check<cr>', o.none)
-map('t', '<f9>', '<c-\\><c-n><cmd>lua require"FTerm".toggle()<cr>', o.none)
+map('t', '<f5>', function() require'FTerm'.run'make build' end, o.none)
+map('t', '<f6>', function() require'FTerm'.run'make start' end, o.none)
+map('t', '<f7>', function() require'FTerm'.run'make debug' end, o.none)
+map('t', '<f8>', function() require'FTerm'.run'make check' end, o.none)
+map('t', '<f9>', require'FTerm'.toggle, o.none)
 
 -- MISCELLANEOUS
 
@@ -74,7 +78,7 @@ map('n', 'q:', '<nop>', o.none)
 map('n', 'q', '<nop>', o.none)
 map('n', 'Q', 'q', o.none)
 
-map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', o.none)  -- better keyword lookup
+map('n', 'K', vim.lsp.buf.hover, o.none)  -- better keyword lookup
 map('n', 'Y', 'y$', o.none)  -- yank until end-of-line, recommended in help-doc
 map('v', '/', '<esc>/\\%V', o.none)  -- search within range
 map('n', '-', '$', o.none)  -- dollar sign is hard to reach
@@ -83,16 +87,18 @@ map('n', '<c-c>', '<c-a>', o.none)  -- <c-a> is my tmux prefix key
 
 -- NAVIGATE
 
-map('n', '[l', '<cmd>lua require"mappings".prev_diagnostic()<cr>', o.none)
-map('n', ']l', '<cmd>lua require"mappings".next_diagnostic()<cr>', o.none)
-map('n', '[h', '<cmd>lua require"gitsigns".prev_hunk()<cr>', o.none)
-map('n', ']h', '<cmd>lua require"gitsigns".next_hunk()<cr>', o.none)
-map('n', '[s', '<cmd>lua require"aerial".prev_item()<cr>', o.none)
-map('n', ']s', '<cmd>lua require"aerial".next_item()<cr>', o.none)
+map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", o.expr)
+map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<cr>'", o.expr)
+map('n', '[l', function() require'mappings'.prev_diagnostic() end, o.none)
+map('n', ']l', function() require'mappings'.next_diagnostic() end, o.none)
+map('n', '[h', require'gitsigns'.prev_hunk, o.none)
+map('n', ']h', require'gitsigns'.next_hunk, o.none)
+map('n', '[s', function() require'aerial'.next(-1) end, o.none)
+map('n', ']s', function() require'aerial'.next(1) end, o.none)
 
-map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', o.none)
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
-map('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<cr>', o.none)
+map('n', 'gD', vim.lsp.buf.declaration, o.none)
+map('n', 'gd', vim.lsp.buf.definition, o.none)
+map('n', '<c-]>', vim.lsp.buf.definition, o.none)
 
 map('t', '<c-h>', '<c-\\><c-n><c-w>h', o.none)
 map('t', '<c-j>', '<c-\\><c-n><c-w>j', o.none)
@@ -119,15 +125,12 @@ map('v', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
 map('i', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
 
 -- <c-o>,yp to toggle paste mode
-map('i', '<leader>dbg', 'println!<c-o>,yp("{:?}", &);<c-o>T&<c-o>,yp', o.remap)
+map('i', '<leader>dbg', '<c-g>uprintln!("{:?}", );<left><left><c-g>u', o.none)
 
-map('i', '<leader>*', '<c-g>u<esc>[s1z=`]a<c-g>u', o.none)
+map('i', '<leader>*', '<c-g>u<esc>[s1z=`]a<c-g>u', o.none)  -- fix last misspelled word
 map('i', '<leader>"', '<c-r>', o.none)
 map('i', '<leader>[', '<left>', o.none)
 map('i', '<leader>]', '<right>', o.none)
-
-map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', o.expr)
-map('i', '<s-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', o.expr)
 
 -- FUNCTIONS
 
@@ -166,7 +169,11 @@ end
 
 function M.toggle_colorcolumn()
   local cc = vim.wo.colorcolumn
-  vim.wo.colorcolumn = (cc ~= '80,81') and '80,81' or ''
+  vim.wo.colorcolumn = (cc ~= '81,82') and '81,82' or ''
+end
+
+function M.toggle_wrap()
+  vim.o.wrap = not vim.o.wrap
 end
 
 function M.toggle_paste()
@@ -184,31 +191,27 @@ function M.toggle_docs()
 end
 
 function M.prev_diagnostic()
+  local row = vim.api.nvim_win_get_cursor(0)[1]
   local diag = vim.diagnostic
   local errors = diag.get(0, {
     severity = diag.severity.ERROR
   })
   diag.goto_prev {
+    cursor_position = {row - 1, 0},
     sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }
 end
 
 function M.next_diagnostic()
+  local row = vim.api.nvim_win_get_cursor(0)[1]
   local diag = vim.diagnostic
   local errors = diag.get(0, {
     severity = diag.severity.ERROR
   })
   diag.goto_next {
+    cursor_position = {row + 1, 0},
     sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }
-end
-
-function M.make(target)
-  local fterm = require('FTerm')
-  fterm.run {'make', target}
-  fterm.close()
-  vim.cmd('stopinsert')
-  print("job sent: make "..target)
 end
 
 return M

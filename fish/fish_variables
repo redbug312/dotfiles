@@ -4,8 +4,12 @@ SETUVAR __fish_classic_git_prompt_initialized:\x1d
 SETUVAR __fish_init_2_39_8:\x1d
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_initialized:3100
+SETUVAR _fish_abbr_act:source\x20venv/bin/activate\x2efish
 SETUVAR _fish_abbr_ag:rg
+SETUVAR _fish_abbr_clip:xsel\x20\x2d\x2dclipboard
 SETUVAR _fish_abbr_conf:sudo\x20nvim\x20/etc/NetworkManager/NetworkManager\x2econf
+SETUVAR _fish_abbr_dedup:awk\x20\x21x\x5b\x5c\x240\x5d\x2b\x2b
+SETUVAR _fish_abbr_duplicity:duplicity\x20\x2d\x2dno\x2dencryption
 SETUVAR _fish_abbr_fatal:journalctl\x20\x2db\x20\x2d1\x20\x2dr
 SETUVAR _fish_abbr_goose:ssh\x20\x2dY\x20redbug312\x40\x24SERVER_GOOSE
 SETUVAR _fish_abbr_grep:rg

@@ -30,8 +30,8 @@ elinks/cookies
 elinks/globhist
 elinks/gotohist
 fish/fishd.*
-git/local/config
 nvim/plugin/packer_compiled.vim
 nvim/plugin/packer_compiled.lua
+nvim/cactusbuddy/.git
 vifm/vifm-help.txt
 vifm/vifminfo

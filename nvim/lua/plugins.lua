@@ -18,17 +18,8 @@ return require('packer').startup(function()
 
   use {'digitaltoad/vim-pug'}
 
-  use {'blackCauldron7/surround.nvim',
-    config = function()
-      local surround = require('surround')
-      surround.setup {
-        mappings_style = 'surround',
-        pairs = {
-          nestable = { {"(", ")"}, {"[", "]"}, {"{", "}"}, {"<", ">"} },
-          linear = { {"'", "'"}, {'"', '"'} },
-        }
-      }
-    end
+  use {'tpope/vim-surround',
+    requires = 'tpope/vim-repeat',
   }
 
   use {'mfussenegger/nvim-dap',
@@ -75,7 +66,12 @@ return require('packer').startup(function()
   }
 
   use {'hrsh7th/nvim-cmp',
-    requires = 'windwp/nvim-autopairs',
+    requires = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'windwp/nvim-autopairs',
+    },
     config = function()
       local cmp = require('cmp')
       local autopairs = require('nvim-autopairs')
@@ -83,11 +79,39 @@ return require('packer').startup(function()
       autopairs.setup {}
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
       cmp.setup {
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        completion = {
+          keyword_length = 3,
+        },
         sources = {
-          { name = 'nvim_lsp' },
-          { name = 'buffer' },
-        }
+          { name = 'nvim_lsp', max_item_count = 3 },
+          { name = 'path', max_item_count = 3 },
+          { name = 'buffer', max_item_count = 3 },
+        },
+        mapping = {
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              fallback()
+            end
+          end,
+          ['<S-Tab>'] = function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              fallback()
+            end
+          end,
+        },
       }
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
     end
   }
 
@@ -103,7 +127,8 @@ return require('packer').startup(function()
     config = function()
       local treesitter = require('nvim-treesitter.configs')
       treesitter.setup {
-        ensure_installed = 'maintained',
+        ensure_installed = 'all',
+        ignore_install = { 'phpdoc' },
         highlight = {
           enable = true,
           disable = {'bash', 'rust', 'css', 'latex', 'make'}
@@ -138,13 +163,17 @@ return require('packer').startup(function()
     requires = {
       -- 'nvim-lua/completion-nvim',
       'nvim-lua/lsp_extensions.nvim',
+      'lvimuser/lsp-inlayhints.nvim',
       'stevearc/aerial.nvim',
     },
     config = function()
       local lsp = require('lspconfig')
       local aerial = require('aerial')
-      local custom_attach = function(client)
+      local hints = require("lsp-inlayhints")
+      hints.setup()
+      local custom_attach = function(client, bufnr)
         aerial.on_attach(client)
+        hints.on_attach(bufnr, client)
       end
       lsp.rust_analyzer.setup {
         on_attach = custom_attach,
@@ -154,22 +183,43 @@ return require('packer').startup(function()
               disabled = {
                 "unresolved-extern-crate", -- rust-analyzer#6714
                 "unresolved-proc-macro",   -- rust-analyzer#7497
-                "inactive-code",
+                -- "inactive-code",
               },
             },
           }
         }
       }
-      lsp.pylsp.setup {
-        on_attach = custom_attach
+      -- lsp.pylsp.setup {
+      --   on_attach = custom_attach,
+      --   settings = {
+      --     pylsp = {
+      --       plugins = {
+      --         pycodestyle = {
+      --           ignore = {'E221', 'E501'},
+      --           -- E221: multiple spaces before operator
+      --           -- E501: line too long
+      --         }
+      --       }
+      --     }
+      --   }
+      -- }
+      lsp.pyright.setup {
+        on_attach = custom_attach,
       }
-      vim.cmd(
-        "autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
-        ":lua require'lsp_extensions'.inlay_hints {"..
-        "  prefix = ' » ', highlight = 'NonText',"..
-        "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..
-        "}"
-      )
+    -- require'lsp_extensions'.inlay_hints{
+    --   highlight = "NonText",
+    --   prefix = " » ",
+    --   aligned = false,
+    --   only_current_line = false,
+    --   enabled = { 'TypeHint', 'ChainingHint', 'ParameterHint' }
+    -- }
+      -- vim.cmd(
+      --   "autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
+      --   ":lua require'lsp_extensions'.inlay_hints {"..
+      --   "  prefix = ' » ', highlight = 'NonText',"..
+      --   "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..
+      --   "}"
+      -- )
     end
   }
 
@@ -180,13 +230,22 @@ return require('packer').startup(function()
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-project.nvim',
       'nvim-telescope/telescope-bibtex.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
       'stevearc/aerial.nvim',
     },
     config = function()
       local telescope = require('telescope')
+      telescope.setup {
+        extensions = {
+          ['ui-select'] = {
+            require('telescope.themes').get_dropdown()
+          }
+        }
+      }
       telescope.load_extension('project')
       telescope.load_extension('aerial')
       telescope.load_extension('bibtex')
+      telescope.load_extension('ui-select')
     end,
   }
 
@@ -246,40 +305,48 @@ return require('packer').startup(function()
 
   use {'kyazdani42/nvim-tree.lua',
     config = function()
-      vim.g.nvim_tree_icons = {
-        default = '',
-        git = {
-          unstaged  = '(△)',
-          staged    = '(✓)',
-          unmerged  = '(!)',
-          renamed   = '(-)',
-          untracked = '(+)',
-          deleted   = '(×)',
-          ignored   = '(~)',
-        },
-        folder = {
-          default    = '▶',
-          open       = '▼',
-          empty      = '▷',
-          empty_open = '▽',
-        }
-      }
-      vim.g.nvim_tree_show_icons = {
-        git = 1,
-        folders = 1,
-        files = 0,
-        folder_arrows = 0,
-      }
       local nvim_tree = require('nvim-tree')
       nvim_tree.setup {
         update_cwd = true,
+        renderer = {
+          icons = {
+            show = {
+              file = false,
+              folder = false,
+              folder_arrow = true,
+              git = true,
+            },
+            glyphs = {
+              default = '',
+              symlink = '',
+              git = {
+                unstaged  = '△',
+                staged    = '✓',
+                unmerged  = '!',
+                renamed   = '-',
+                untracked = '+',
+                deleted   = '×',
+                ignored   = '~',
+              },
+              folder = {
+                arrow_closed = '▶',
+                arrow_open   = '▼',
+                default      = '▶',
+                open         = '▼',
+                empty        = '▷',
+                empty_open   = '▽',
+              }
+            }
+          }
+        }
       }
-    end
-  }
+      end
+    }
 
   use {'stevearc/aerial.nvim',
     config = function()
-      vim.g.aerial = {
+      local aerial = require('aerial')
+      aerial.setup {
         placement_editor_edge = true,
         manage_folds = true,
         min_width = 30,
@@ -299,12 +366,12 @@ return require('packer').startup(function()
         },
         icons = {
           Collapsed = ' ▷',
+          Class = 'ᴄʟ',
           Enum = 'ᴇᴍ',
           Field = 'ꜰᴅ',
           Function = 'ꜰɴ',
           Interface = 'ɪꜰ',
           Module = 'ᴍᴅ',
-          -- Object = 'ᴏᴊ',
           Struct = 'ꜱᴛ',
         },
       }

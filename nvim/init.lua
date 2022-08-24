@@ -1,7 +1,5 @@
 local g   = vim.g
 local opt = vim.o
-local bo  = vim.bo
-local wo  = vim.wo
 local cmd = vim.cmd
 
 g.mapleader = ','
@@ -16,14 +14,15 @@ require 'plugins'   -- located ~/.config/nvim/lua/plugins.lua
 require 'mappings'  -- located ~/.config/nvim/lua/mappings.lua
 
 -- FEATURES
-wo.foldmethod = 'expr'
-wo.foldlevel = 99
-wo.foldexpr = 'nvim_treesitter#foldexpr()'
+opt.foldmethod = 'expr'
+opt.foldlevel = 99
+opt.foldexpr = 'nvim_treesitter#foldexpr()'
 opt.path = opt.path..'**'
 opt.splitright = true
 opt.completeopt = 'menuone,noinsert,noselect'
 opt.shortmess = opt.shortmess..'c'
 opt.backspace = opt.backspace..',nostop'
+opt.mouse = ''
 
 -- INDENTS
 opt.expandtab = true
@@ -34,14 +33,6 @@ opt.spelllang = 'en_us,cjk'
 opt.formatoptions = 'tcqjnB'
 opt.textwidth = 80
 
-bo.expandtab = true
-bo.shiftwidth = 4
-bo.softtabstop = 4
-bo.tabstop = 4
-bo.spelllang = 'en_us,cjk'
-bo.formatoptions = 'tcqjnB'
-bo.textwidth = 80
-
 -- SEARCHING
 opt.ignorecase = true
 opt.smartcase = true
@@ -49,10 +40,10 @@ opt.incsearch = true
 opt.hlsearch = true
 
 -- LOOKINGS
-wo.list = true
-wo.number = true
-wo.cursorline = true
-wo.colorcolumn = '81,82'
+opt.list = true
+opt.number = true
+opt.cursorline = true
+opt.colorcolumn = '81,82'
 opt.listchars = opt.listchars..',tab:» ,trail:·'
 opt.fillchars = 'fold:╴'
 opt.termguicolors = true
@@ -62,13 +53,14 @@ opt.scrolloff = 3
 opt.showtabline = 0
 
 -- AUTOCMDS
-cmd 'autocmd FileType gitcommit  setlocal spell tw=72 fo+=t'
-cmd 'autocmd FileType markdown   setlocal sw=2 ts=2 sts=2 cms=<!--%s-->'
-cmd 'autocmd FileType gnuplot    setlocal cms=#%s'
-cmd 'autocmd FileType lua        setlocal sw=2 ts=2 sts=2'
-cmd 'autocmd FileType yaml       setlocal sw=2 ts=2 sts=2'
-cmd 'autocmd FileType javascript setlocal sw=2 ts=2 sts=2'
-cmd 'autocmd FileType toml       setlocal cms=#%s'
-cmd 'autocmd FileType tex        setlocal sw=2 ts=2 sts=2 tw=80 fo+=t'
-cmd 'autocmd BufWritePost plugins.lua luafile %:p'
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'
+cmd 'autocmd BufWritePost plugins.lua luafile %:p'
+cmd 'autocmd FileType gitcommit  setlocal spell tw=72 fo+=t'
+cmd 'autocmd FileType gnuplot    setlocal cms=#%s'
+cmd 'autocmd FileType javascript setlocal sw=2 ts=2 sts=2'
+cmd 'autocmd FileType lua        setlocal sw=2 ts=2 sts=2'
+cmd 'autocmd FileType markdown   setlocal sw=2 ts=2 sts=2 cms=<!--%s-->'
+cmd 'autocmd FileType pug        setlocal sw=2 ts=2 sts=2'
+cmd 'autocmd FileType tex        setlocal sw=2 ts=2 sts=2 tw=80 fo+=t'
+cmd 'autocmd FileType toml       setlocal cms=#%s'
+cmd 'autocmd FileType yaml       setlocal sw=2 ts=2 sts=2'

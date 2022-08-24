@@ -38,14 +38,11 @@ function fish_prompt --description 'Write out the prompt'
 
     switch (_display)
         case ''
-            printf "%s %s " (set_color normal) (_working_dir)
-            printf "%s>" (set_color normal)
+            printf "%s %s >" (set_color normal) (_working_dir)
         case :0.0
-            printf "%s%s %s " (set_color normal) (set_color -ob black) (_working_dir)
-            printf "%s%s" (set_color normal) (set_color black)
+            printf "%s %s " (set_color normal) (_working_dir)
         case '*'
-            printf "%s%s %s " (set_color normal) (set_color -ob black) (_working_dir)
-            printf "%s%s%s" (set_color normal) (set_color black) (set_color -o black)
+            printf "%s %s " (set_color normal) (_working_dir)
     end
 
     set_color normal
