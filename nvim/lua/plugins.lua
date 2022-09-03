@@ -161,7 +161,6 @@ return require('packer').startup(function()
   -- LANGUAGE-SERVER
   use {'neovim/nvim-lspconfig',
     requires = {
-      -- 'nvim-lua/completion-nvim',
       'nvim-lua/lsp_extensions.nvim',
       'lvimuser/lsp-inlayhints.nvim',
       'stevearc/aerial.nvim',
@@ -169,11 +168,10 @@ return require('packer').startup(function()
     config = function()
       local lsp = require('lspconfig')
       local aerial = require('aerial')
-      local hints = require("lsp-inlayhints")
-      hints.setup()
+      local inlays = require('lsp-inlayhints')
       local custom_attach = function(client, bufnr)
-        aerial.on_attach(client)
-        hints.on_attach(bufnr, client)
+        aerial.on_attach(client, bufnr)
+        inlays.on_attach(client, bufnr)
       end
       lsp.rust_analyzer.setup {
         on_attach = custom_attach,
@@ -189,37 +187,12 @@ return require('packer').startup(function()
           }
         }
       }
-      -- lsp.pylsp.setup {
-      --   on_attach = custom_attach,
-      --   settings = {
-      --     pylsp = {
-      --       plugins = {
-      --         pycodestyle = {
-      --           ignore = {'E221', 'E501'},
-      --           -- E221: multiple spaces before operator
-      --           -- E501: line too long
-      --         }
-      --       }
-      --     }
-      --   }
-      -- }
       lsp.pyright.setup {
         on_attach = custom_attach,
       }
-    -- require'lsp_extensions'.inlay_hints{
-    --   highlight = "NonText",
-    --   prefix = " » ",
-    --   aligned = false,
-    --   only_current_line = false,
-    --   enabled = { 'TypeHint', 'ChainingHint', 'ParameterHint' }
-    -- }
-      -- vim.cmd(
-      --   "autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs "..
-      --   ":lua require'lsp_extensions'.inlay_hints {"..
-      --   "  prefix = ' » ', highlight = 'NonText',"..
-      --   "  enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'}"..
-      --   "}"
-      -- )
+      lsp.clangd.setup {
+        on_attach = custom_attach,
+      }
     end
   }
 
@@ -351,7 +324,6 @@ return require('packer').startup(function()
         manage_folds = true,
         min_width = 30,
         max_width = 30,
-        -- filter_kind = false,
         filter_kind = {
           'Class',
           'Constructor',
@@ -361,7 +333,6 @@ return require('packer').startup(function()
           'Interface',
           'Method',
           'Module',
-          -- 'Object',
           'Struct',
         },
         icons = {
