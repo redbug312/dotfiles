@@ -78,6 +78,13 @@ map('n', 'q:', '<nop>', o.none)
 map('n', 'q', '<nop>', o.none)
 map('n', 'Q', 'q', o.none)
 
+                 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+                   vim.lsp.handlers.hover, {
+                     -- Use a sharp border with `FloatBorder` highlights
+                     border = "single"
+                   }
+                 )
+
 map('n', 'K', vim.lsp.buf.hover, o.none)  -- better keyword lookup
 map('n', 'Y', 'y$', o.none)  -- yank until end-of-line, recommended in help-doc
 map('v', '/', '<esc>/\\%V', o.none)  -- search within range
@@ -125,7 +132,7 @@ map('v', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
 map('i', '<leader><leader>', '<esc><cmd>let @/="<<<<<<<"<cr>n', o.none)
 
 -- <c-o>,yp to toggle paste mode
-map('i', '<leader>dbg', '<c-g>uprintln!("{:?}", );<left><left><c-g>u', o.none)
+map('i', '<leader>print', '<c-g>uprintln!("{:?}", );<left><left><c-g>u', o.none)
 
 map('i', '<leader>*', '<c-g>u<esc>[s1z=`]a<c-g>u', o.none)  -- fix last misspelled word
 map('i', '<leader>"', '<c-r>', o.none)
@@ -197,6 +204,7 @@ function M.prev_diagnostic()
     severity = diag.severity.ERROR
   })
   diag.goto_prev {
+    float = {border = 'single'},
     cursor_position = {row - 1, 0},
     sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }
@@ -209,6 +217,7 @@ function M.next_diagnostic()
     severity = diag.severity.ERROR
   })
   diag.goto_next {
+    float = {border = 'single'},
     cursor_position = {row + 1, 0},
     sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
   }

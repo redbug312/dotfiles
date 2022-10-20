@@ -76,7 +76,7 @@ return require('packer').startup(function()
       local cmp = require('cmp')
       local autopairs = require('nvim-autopairs')
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      autopairs.setup {}
+      autopairs.setup()
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
       cmp.setup {
         window = {
@@ -173,8 +173,15 @@ return require('packer').startup(function()
         aerial.on_attach(client, bufnr)
         inlays.on_attach(client, bufnr)
       end
+      local handlers =  {
+        ["textDocument/hover"] = vim.lsp.with(
+          vim.lsp.handlers.hover, { border = "single" }
+        ),
+      }
+      inlays.setup {}
       lsp.rust_analyzer.setup {
         on_attach = custom_attach,
+        handlers = handlers,
         settings = {
           ["rust-analyzer"] = {
             diagnostics = {
@@ -189,9 +196,11 @@ return require('packer').startup(function()
       }
       lsp.pyright.setup {
         on_attach = custom_attach,
+        handlers = handlers,
       }
       lsp.clangd.setup {
         on_attach = custom_attach,
+        handlers = handlers,
       }
     end
   }
