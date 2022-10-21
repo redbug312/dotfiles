@@ -17,17 +17,17 @@ function fish_prompt --description 'Write out the prompt'
         echo $VIRTUAL_ENV
     end
     function _git_branch
-        echo (git rev-parse --abbrev-ref HEAD ^/dev/null)
-        # echo (git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
+        echo (git rev-parse --abbrev-ref HEAD 2> /dev/null)
+        # echo (git symbolic-ref HEAD 2> /dev/null | sed -e 's|^refs/heads/||')
     end
     function _git_dirty
-        echo (git status -s -unormal --ignore-submodules ^/dev/null)
+        echo (git status -s -unormal --ignore-submodules 2> /dev/null)
     end
     function _git_modified
-        echo (git status -s -unormal --ignore-submodules ^/dev/null | grep '^.M')
+        echo (git status -s -unormal --ignore-submodules 2> /dev/null | grep '^.M')
     end
     function _git_untracked
-        echo (git status -s -unormal --ignore-submodules ^/dev/null | grep '^??')
+        echo (git status -s -unormal --ignore-submodules 2> /dev/null | grep '^??')
     end
     function _jobs_active
         echo (jobs | grep 'running')
