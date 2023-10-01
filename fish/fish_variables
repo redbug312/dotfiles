@@ -27,6 +27,8 @@ SETUVAR _fish_abbr_start:sudo\x20systemctl\x20start
 SETUVAR _fish_abbr_stop:sudo\x20systemctl\x20stop
 SETUVAR _fish_abbr_tmux:tmux\x20new\x2dsession\x20\x2dA\x20\x2ds\x200
 SETUVAR _fish_abbr_tunnel:ssh\x20\x2dvNR\x208001\x3alocalhost\x3a8000\x20\x24SERVER_GOOSE
+SETUVAR _fish_abbr_usb0:sudo\x20picocom\x20/dev/ttyUSB0\x20\x2db\x20115200
+SETUVAR _fish_abbr_usb1:sudo\x20picocom\x20/dev/ttyUSB1\x20\x2db\x20115200
 SETUVAR _fish_abbr_vim:nvim
 SETUVAR _fish_abbr_weather:curl\x20http\x3a//v2\x2ewttr\x2ein/
 SETUVAR _fish_abbr_yank:xsel\x20\x2d\x2dclipboard

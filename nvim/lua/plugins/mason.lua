@@ -1,11 +1,13 @@
 local M = {
   "williamboman/mason.nvim",
   event = "VeryLazy",
+  cmd = "Mason",
 }
 
 tools = {
   "rust-analyzer",
   "python-lsp-server",
+  "clangd",
 }
 
 function M.config()

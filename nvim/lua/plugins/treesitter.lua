@@ -49,7 +49,7 @@ function M.config()
     ignore_install = { 'phpdoc' },
     highlight = {
       enable = true,
-      disable = {'bash', 'css', 'latex', 'make'}
+      disable = {'css', 'latex'}
     },
     indent = {
       enable = true,

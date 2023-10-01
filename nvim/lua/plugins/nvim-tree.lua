@@ -4,7 +4,8 @@ local M = {
     {
       "<leader>yh",
       function()
-        require('nvim-tree').toggle()
+        local api = require('nvim-tree.api')
+        api.tree.toggle()
       end,
       desc = "NvimTree",
     },

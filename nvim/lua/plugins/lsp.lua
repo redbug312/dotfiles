@@ -26,6 +26,9 @@ function M.config()
     handlers = handlers,
     settings = {
       ["rust-analyzer"] = {
+        check = {
+          invocationLocation = "root",
+        },
         diagnostics = {
           disabled = {
             "unresolved-extern-crate", -- rust-analyzer#6714

@@ -9,6 +9,8 @@ return {
   { "wakatime/vim-wakatime", event = "BufReadPre" },
   { "tweekmonster/startuptime.vim", cmd = "StartupTime" },
 
+  { "chrisgrieser/nvim-early-retirement", config = true, event = "VeryLazy" },
+
   {
     "junegunn/vim-easy-align",
     keys = "ga",
