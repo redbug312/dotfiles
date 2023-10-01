@@ -2,9 +2,10 @@ vim.api.nvim_create_autocmd({"FileType"}, {
   pattern = {
     "gitcommit",
   },
-  callback = function(event)
-    vim.bo.textwidth = 72
-    vim.bo.colorcolumn = '73,74'
+  callback = function()
+    vim.o.textwidth = 72
+    vim.wo.colorcolumn = '73,74'
+    vim.wo.spell = true
   end
 })
 
@@ -16,9 +17,9 @@ vim.api.nvim_create_autocmd({"FileType"}, {
     "tex",
     "yaml",
   },
-  callback = function(event)
-    vim.bo.shiftwidth = 2
-    vim.bo.softtabstop = 2
-    vim.bo.tabstop = 2
+  callback = function()
+    vim.o.shiftwidth = 2
+    vim.o.softtabstop = 2
+    vim.o.tabstop = 2
   end
 })

@@ -8,11 +8,6 @@ return {
   { "tweekmonster/startuptime.vim", cmd = "StartupTime" },
 
   {
-    'folke/which-key.nvim',
-    config = true,
-  },
-
-  {
     "junegunn/vim-easy-align",
     keys = "ga",
     config = function()

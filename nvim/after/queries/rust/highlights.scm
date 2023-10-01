@@ -1,6 +1,6 @@
 ; extends
 
-"?" @exception
+"?" @exception.operator
 "::" @namespace
 
 (mutable_specifier) @type.qualifier
@@ -13,6 +13,14 @@
 
 (scoped_identifier
   path: (identifier) @namespace)
+
+(scoped_type_identifier
+  path: (identifier) @namespace)
+
+(visibility_modifier
+  "(" @namespace
+  [(crate) (super) (self)] @keyword
+  ")" @namespace)
 
 ; (macro_invocation
 ;   macro: (identifier) @function.macro

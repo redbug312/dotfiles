@@ -2,8 +2,8 @@
     path = ~/.config/git/local/config
 [core]
     editor = nvim
-    excludesfile = ~/.config/git/gitignore
     quotepath = false
+    symlinks = false
 [init]
     templatedir = ~/.config/git/template
 [alias]

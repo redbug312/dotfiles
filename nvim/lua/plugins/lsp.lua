@@ -10,13 +10,14 @@ local M = {
 function M.config()
   local lsp = require('lspconfig')
   local inlays = require('lsp-inlayhints')
+  local windows = require('lspconfig.ui.windows')
   local custom_attach = function(client, bufnr)
     inlays.on_attach(client, bufnr)
   end
   local handlers =  {
     ["textDocument/hover"] = vim.lsp.with(
       vim.lsp.handlers.hover, { border = "single" }
-    ),
+    )
   }
   inlays.setup {}
   lsp.rust_analyzer.setup {
@@ -29,8 +30,8 @@ function M.config()
             "unresolved-extern-crate", -- rust-analyzer#6714
             "unresolved-proc-macro",   -- rust-analyzer#7497
             "inactive-code",
-          },
-        },
+          }
+        }
       }
     }
   }
@@ -45,6 +46,7 @@ function M.config()
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, { border = "single" }
   )
+  windows.default_options.border = 'single'
 end
 
 return M

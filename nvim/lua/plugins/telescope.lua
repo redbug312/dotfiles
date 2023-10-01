@@ -84,6 +84,18 @@ function M.config()
   local builtin = require('telescope.builtin')
 
   telescope.setup {
+    defaults = {
+      mappings = {
+        i = {
+          ["<c-down>"] = function(...)
+            return require("telescope.actions").cycle_history_next(...)
+          end,
+          ["<c-up>"] = function(...)
+            return require("telescope.actions").cycle_history_prev(...)
+          end,
+        }
+      }
+    },
     extensions = {
       ['ui-select'] = {
         require('telescope.themes').get_dropdown()

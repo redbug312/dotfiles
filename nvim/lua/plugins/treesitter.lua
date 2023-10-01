@@ -55,6 +55,19 @@ function M.config()
       enable = true,
       disable = {'rust', 'latex'}
     },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+        },
+        include_surrounding_whitespace = true,
+      }
+    },
     textsubjects = {
       enable = true,
       keymaps = {

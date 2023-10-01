@@ -78,11 +78,11 @@ function M.toggle_colorcolumn()
 end
 
 function M.toggle_wrap()
-  vim.opt.wrap = not vim.opt.wrap
+  vim.opt.wrap = not vim.opt.wrap._value
 end
 
 function M.toggle_paste()
-  vim.opt.paste = not vim.opt.paste
+  vim.opt.paste = not vim.opt.paste._value
 end
 
 function M.toggle_docs()
