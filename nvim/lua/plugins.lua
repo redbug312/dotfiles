@@ -130,7 +130,7 @@ return require('packer').startup(function()
         ignore_install = { 'phpdoc' },
         highlight = {
           enable = true,
-          disable = {'bash', 'rust', 'css', 'latex', 'make'}
+          disable = {'bash', 'css', 'latex', 'make'}
         },
         indent = {
           enable = true,
