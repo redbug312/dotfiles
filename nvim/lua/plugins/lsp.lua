@@ -11,8 +11,13 @@ function M.config()
   local lsp = require('lspconfig')
   local inlays = require('lsp-inlayhints')
   local windows = require('lspconfig.ui.windows')
+  local custom_init = function(client, init)
+    if client.server_capabilities then
+      client.server_capabilities.documentFormattingProvider = nil
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+  end
   local custom_attach = function(client, bufnr)
-    client.server_capabilities.semanticTokensProvider = nil
     inlays.on_attach(client, bufnr)
   end
   local handlers =  {
@@ -22,10 +27,16 @@ function M.config()
   }
   inlays.setup {}
   lsp.rust_analyzer.setup {
+    on_init = custom_init,
     on_attach = custom_attach,
     handlers = handlers,
     settings = {
       ["rust-analyzer"] = {
+        cargo = {
+          extraEnv = {
+            "RUSTFLAGS=\"-A dead_code\"", -- https://stackoverflow.com/a/76095190
+          }
+        },
         check = {
           invocationLocation = "root",
         },
