@@ -17,6 +17,7 @@
     cached = difftool --cached
     modified = difftool --
     untracked = ls-files --others --exclude-standard
+    update = fetch --all --prune
 [diff]
     tool = vimdiff
 [pull]

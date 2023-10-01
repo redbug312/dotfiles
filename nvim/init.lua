@@ -55,7 +55,7 @@ opt.showtabline = 0
 -- AUTOCMDS
 cmd 'autocmd BufWritePost plugins.lua source %:p | PackerCompile'
 -- cmd 'autocmd BufWritePost plugins.lua luafile %:p'
-cmd 'autocmd FileType gitcommit  setlocal spell tw=72 fo+=t'
+cmd 'autocmd FileType gitcommit  setlocal spell tw=72 cc=73,74 fo+=t'
 cmd 'autocmd FileType gnuplot    setlocal cms=#%s'
 cmd 'autocmd FileType javascript setlocal sw=2 ts=2 sts=2'
 cmd 'autocmd FileType lua        setlocal sw=2 ts=2 sts=2'

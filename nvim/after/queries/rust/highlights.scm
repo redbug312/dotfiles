@@ -1,19 +1,25 @@
 ; extends
 
-"?" @function.builtin
+"?" @exception
 "::" @namespace
 
-(mutable_specifier) @operator
+(mutable_specifier) @type.qualifier
 
 (attribute_item
-  ["#" "[" "]"] @attribute.bracket
+  ["#" "[" "]"] @attribute
   (_
-    (identifier) @attribute.name
-    arguments: (_ ["(" ")"] @attribute.bracket)))
+    (identifier) @attribute
+    arguments: (_ ["(" ")"] @attribute) @attribute))
 
 (scoped_identifier
   path: (identifier) @namespace)
 
 ; (macro_invocation
-;   macro: (identifier) @debug
-;   (#eq? @debug "dbg")) @debug
+;   macro: (identifier) @function.macro
+;   "!" @function.macro)
+
+(macro_invocation
+  macro: (identifier) @debug
+  "!" @debug.delimiter
+  _ @function.call
+  (#eq? @debug "dbg")) @debug

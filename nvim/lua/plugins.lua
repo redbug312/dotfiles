@@ -169,7 +169,7 @@ return require('packer').startup(function()
       local aerial = require('aerial')
       local inlays = require('lsp-inlayhints')
       local custom_attach = function(client, bufnr)
-        aerial.on_attach(client, bufnr)
+        -- aerial.on_attach(client, bufnr)
         inlays.on_attach(client, bufnr)
       end
       local handlers =  {
@@ -193,7 +193,7 @@ return require('packer').startup(function()
           }
         }
       }
-      lsp.pyright.setup {
+      lsp.pylsp.setup {
         on_attach = custom_attach,
         handlers = handlers,
       }
@@ -220,6 +220,10 @@ return require('packer').startup(function()
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown()
+          },
+          project = {
+            theme = "dropdown",
+            sync_with_nvim_tree = true,
           }
         }
       }
@@ -264,11 +268,12 @@ return require('packer').startup(function()
       local gitsigns = require('gitsigns')
       gitsigns.setup {
         signs = {
-          add          = { hl = 'LineNr', text = '│' },
-          change       = { hl = 'LineNr', text = '│' },
-          delete       = { hl = 'LineNr', text = '═' },
-          topdelete    = { hl = 'LineNr', text = '╤' },
-          changedelete = { hl = 'LineNr', text = '╧' },
+          add          = { text = '│' },
+          change       = { text = '│' },
+          delete       = { text = '═' },
+          topdelete    = { text = '╤' },
+          changedelete = { text = '╧' },
+          untracked    = { text = '╎' },
         }
       }
     end
@@ -328,10 +333,14 @@ return require('packer').startup(function()
     config = function()
       local aerial = require('aerial')
       aerial.setup {
-        placement_editor_edge = true,
         manage_folds = true,
-        min_width = 30,
-        max_width = 30,
+        layout = {
+          max_width = 30,
+          min_width = 30,
+          default_direction = 'right',
+          placement = 'edge',
+        },
+        -- filter_kind = false,
         filter_kind = {
           'Class',
           'Constructor',
@@ -350,6 +359,7 @@ return require('packer').startup(function()
           Field = 'ꜰᴅ',
           Function = 'ꜰɴ',
           Interface = 'ɪꜰ',
+          Method = 'ᴍᴛ',
           Module = 'ᴍᴅ',
           Struct = 'ꜱᴛ',
         },

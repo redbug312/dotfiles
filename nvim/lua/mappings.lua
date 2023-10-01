@@ -49,7 +49,7 @@ map('n', '<leader>a', vim.lsp.buf.code_action, o.none)
 map('n', '<leader>c', function() require'mappings'.synstack() end, o.none)
 map('n', '<leader>l', function() vim.diagnostic.open_float{border='single'} end, o.none)
 map('n', '<leader>t', function() require'mappings'.train() end, o.none)
-map('n', '<leader>p', ':lua print(vim.inspect(  ))<left><left><left>', o.none)
+map('n', '<leader>p', ':lua=', o.none)
 
 map('n', 'ga', '<plug>(EasyAlign)', o.remap)
 map('v', 'ga', '<plug>(EasyAlign)', o.remap)
@@ -190,10 +190,10 @@ end
 function M.toggle_docs()
   local colorbuddy = require('colorbuddy')
   local Color, c, Group, g, s = colorbuddy.setup()
-  if g.rustCommentLineDoc.parent.name == 'darkest' then
-    Group.new('rustCommentLineDoc', c.blue, c.none, s.none)
+  if g["@string.docstring"].parent.name == 'darker' then
+    Group.new('@string.docstring', c.blue, c.none, s.none)
   else
-    Group.new('rustCommentLineDoc', c.darkest, c.none, s.none)
+    Group.new('@string.docstring', c.darker, c.none, s.none)
   end
 end
 
