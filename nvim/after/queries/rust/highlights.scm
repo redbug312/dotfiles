@@ -12,10 +12,10 @@
     arguments: (_ ["(" ")"] @attribute) @attribute))
 
 (scoped_identifier
-  path: (identifier) @namespace)
+  path: (identifier) @namespace.scoped)
 
 (scoped_type_identifier
-  path: (identifier) @namespace)
+  path: (identifier) @namespace.scoped)
 
 (visibility_modifier
   "(" @namespace

@@ -12,6 +12,7 @@ function M.config()
   local inlays = require('lsp-inlayhints')
   local windows = require('lspconfig.ui.windows')
   local custom_attach = function(client, bufnr)
+    client.server_capabilities.semanticTokensProvider = nil
     inlays.on_attach(client, bufnr)
   end
   local handlers =  {

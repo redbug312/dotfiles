@@ -5,6 +5,7 @@ local M = {
 
 tools = {
   "rust-analyzer",
+  "python-lsp-server",
 }
 
 function M.config()

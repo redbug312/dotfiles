@@ -104,7 +104,7 @@ function M.prev_diagnostic()
   diag.goto_prev {
     float = { border = 'single' },
     cursor_position = { row - 1, 0 },
-    sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
+    severity = (next(errors) ~= nil) and diag.severity.ERROR or diag.severity.WARN
   }
 end
 
@@ -117,7 +117,7 @@ function M.next_diagnostic()
   diag.goto_next {
     float = { border = 'single' },
     cursor_position = { row + 1, 0 },
-    sevirity = (next(errors) ~= nil) and diag.ERROR or diag.WARN
+    severity = (next(errors) ~= nil) and diag.severity.ERROR or diag.severity.WARN
   }
 end
 

@@ -3,6 +3,8 @@ return {
   { "tpope/vim-repeat", event = "VeryLazy" },
   { "tpope/vim-surround", event = "VeryLazy" },
 
+  { "Eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
+
   { "christoomey/vim-sort-motion", keys = "gs" },
   { "wakatime/vim-wakatime", event = "BufReadPre" },
   { "tweekmonster/startuptime.vim", cmd = "StartupTime" },
