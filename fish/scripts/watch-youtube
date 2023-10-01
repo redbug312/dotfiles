@@ -26,7 +26,7 @@ if ! command -v yt-dlp &> /dev/null; then
     esac
 fi
 
-format=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -F | tail -n1 | cut -f 1 -d ' ')  # usually 300
+format=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -F | grep 'mp4a' | tail -n1 | cut -f 1 -d ' ')  # usually 300
 stream=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -g -f $format)
 vtitle=$(echo $url | sed 's|&.\+$||' | xargs yt-dlp -e)
 

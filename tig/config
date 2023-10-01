@@ -15,6 +15,12 @@ bind main P ?git push origin %(branch)
 bind main S ?git rebase -i %(commit)^1
 bind main T ?git tag "%(prompt Enter new tag name: )" %(commit)
 
+bind main g     none
+bind main gg    move-first-line
+bind main G     move-last-line
+bind main <C-f> move-page-down
+bind main <C-b> move-page-up
+
 bind stage 1 stage-update-line
 bind stage C ?git commit -v
 bind stage P ?git push origin

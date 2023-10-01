@@ -10,12 +10,13 @@
     b = branch
     c = checkout
     s = status --ignore-submodules
-    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
     amend = commit --amend
-    undo = reset HEAD~1 --soft
-    redo = reset 'HEAD@{1}'
     cached = difftool --cached
     modified = difftool --
+    redo = reset 'HEAD@{1}'
+    today = commit --amend --reset-author --date=now --no-edit
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    undo = reset HEAD~1 --soft
     untracked = ls-files --others --exclude-standard
     update = fetch --all --prune
 [diff]
