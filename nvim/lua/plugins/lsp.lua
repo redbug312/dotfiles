@@ -38,6 +38,7 @@ function M.config()
           }
         },
         check = {
+          -- command = "clippy",
           invocationLocation = "root",
         },
         diagnostics = {
@@ -53,8 +54,21 @@ function M.config()
   lsp.pylsp.setup {
     on_attach = custom_attach,
     handlers = handlers,
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = {
+            ignore = {'E501', 'W504'},
+          }
+        }
+      }
+    }
   }
   lsp.clangd.setup {
+    on_attach = custom_attach,
+    handlers = handlers,
+  }
+  lsp.taplo.setup {
     on_attach = custom_attach,
     handlers = handlers,
   }

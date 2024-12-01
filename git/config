@@ -3,7 +3,7 @@
 [core]
     editor = nvim
     quotepath = false
-    symlinks = false
+    symlinks = true
 [init]
     templatedir = ~/.config/git/template
 [alias]

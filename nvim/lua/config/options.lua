@@ -12,7 +12,7 @@ vim.opt.backspace:append('nostop')
 vim.opt.mouse = ''
 
 vim.opt.compatible = false
-vim.opt.formatprg = 'par -w 80'
+vim.opt.formatprg = 'par -w 72'
 
 -- INDENTS
 vim.opt.expandtab = true

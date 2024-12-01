@@ -17,8 +17,11 @@ function fish_prompt --description 'Write out the prompt'
         echo $VIRTUAL_ENV
     end
     function _git_branch
-        echo (git rev-parse --abbrev-ref HEAD 2> /dev/null)
-        # echo (git symbolic-ref HEAD 2> /dev/null | sed -e 's|^refs/heads/||')
+        set branch (command git rev-parse --abbrev-ref HEAD 2> /dev/null)
+        if test -z $branch || test $branch = "HEAD"
+            set branch (command git rev-parse --short HEAD 2> /dev/null)
+        end
+        echo $branch
     end
     function _git_dirty
         echo (git status -s -unormal --ignore-submodules 2> /dev/null)

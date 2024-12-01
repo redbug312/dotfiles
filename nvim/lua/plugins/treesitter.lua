@@ -5,7 +5,7 @@ local M = {
     "nvim-treesitter/playground",
     "RRethy/nvim-treesitter-textsubjects",
   },
-  build = ":TSUpdate",
+  -- build = ":TSUpdate",
   event = "BufReadPost",
   keys = {
     {
@@ -46,10 +46,10 @@ function M.config()
   local treesitter = require('nvim-treesitter.configs')
   treesitter.setup {
     ensure_installed = 'all',
-    ignore_install = { 'phpdoc' },
+    ignore_install = { 'phpdoc', 'unison' },
     highlight = {
       enable = true,
-      disable = {'css', 'latex'}
+      disable = {'css', 'latex', 'fish'}
     },
     indent = {
       enable = true,

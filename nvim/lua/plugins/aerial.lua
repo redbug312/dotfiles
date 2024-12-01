@@ -37,6 +37,7 @@ local M = {
       'Interface',
       'Method',
       'Module',
+      'Object',
       'Struct',
     },
     icons = {
@@ -48,6 +49,7 @@ local M = {
       Interface = 'ɪꜰ',
       Method = 'ᴍᴛ',
       Module = 'ᴍᴅ',
+      Object = ' -',
       Struct = 'ꜱᴛ',
     }
   }

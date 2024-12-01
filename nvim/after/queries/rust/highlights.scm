@@ -2,8 +2,18 @@
 
 "?" @exception.operator
 "::" @namespace
+"const" @keyword
 
 (mutable_specifier) @type.qualifier
+
+(lifetime
+  "'" @label
+  (identifier) @label)
+
+(lifetime
+  "'" @label.builtin
+  (identifier) @label.builtin.name
+  (#eq? @label.builtin.name "static"))
 
 (attribute_item
   ["#" "[" "]"] @attribute
