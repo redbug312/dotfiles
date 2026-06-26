@@ -1,81 +1,51 @@
 local M = {
   "nvim-treesitter/nvim-treesitter",
+  branch = "main",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    "nvim-treesitter/playground",
-    "RRethy/nvim-treesitter-textsubjects",
+    { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
   },
-  -- build = ":TSUpdate",
   event = "BufReadPost",
   keys = {
     {
-      "<leader>sn",
-      "<cmd>TSTextobjectSwapNext @parameter.inner<cr>"
-    },
-    {
-      "<leader>sp",
-      "<cmd>TSTextobjectSwapPrevious @parameter.inner<cr>"
-    },
-    {
       "<leader>c",
-      function()
-        if pcall(vim.treesitter.get_parser, 0) then
-          local playground = require 'nvim-treesitter-playground.hl-info'
-          playground.show_hl_captures()
-        end
-
-        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-        local synstack = vim.fn.synstack(row, col + 1)
-        local groups = vim.fn.map(synstack, 'synIDattr(v:val, "name")')
-        print(vim.inspect(groups))
-
-        local syntax = vim.fn.synID(row, col + 1, 1)
-        local target = vim.fn.synIDtrans(syntax)
-        if syntax ~= 0 then
-          vim.cmd('hi '..vim.fn.synIDattr(syntax, 'name'))
-        end
-        if target ~= 0 then
-          vim.cmd('hi '..vim.fn.synIDattr(target, 'name'))
-        end
-      end
+      "<cmd>Inspect<cr>",
+      desc = "Inspect Treesitter Capture / Syntax highlight"
+    },
+    {
+      "<leader>ci",
+      "<cmd>InspectTree<cr>",
+      desc = "Inspect Treesitter AST Tree"
     }
   }
 }
 
 function M.config()
-  local treesitter = require('nvim-treesitter.configs')
-  treesitter.setup {
-    ensure_installed = 'all',
-    ignore_install = { 'phpdoc', 'unison' },
-    highlight = {
+  -- Setup nvim-treesitter core
+  require("nvim-treesitter").setup()
+
+  -- Setup nvim-treesitter-textobjects separately
+  require("nvim-treesitter-textobjects").setup({
+    select = {
       enable = true,
-      disable = {'css', 'latex', 'fish'}
-    },
-    indent = {
-      enable = true,
-      disable = {'rust', 'latex'}
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true,
-        keymaps = {
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
-        },
-        include_surrounding_whitespace = true,
-      }
-    },
-    textsubjects = {
-      enable = true,
+      lookahead = true,
       keymaps = {
-        ['.'] = 'textsubjects-smart',
-        [';'] = 'textsubjects-container-outer',
-      }
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+      include_surrounding_whitespace = true,
     },
-  }
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>sn"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>sp"] = "@parameter.inner",
+      },
+    }
+  })
 end
 
 return M

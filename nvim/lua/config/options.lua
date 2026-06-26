@@ -3,7 +3,7 @@ local indent = 4
 -- FEATURES
 vim.opt.foldmethod = 'expr'
 vim.opt.foldlevel = 99
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.path:append('**')
 vim.opt.splitright = true
 vim.opt.completeopt = 'menuone,noinsert,noselect'

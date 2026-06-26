@@ -20,7 +20,7 @@ local M = {
       end
     },
   },
-  config = {
+  opts = {
     manage_folds = true,
     layout = {
       max_width = 30,

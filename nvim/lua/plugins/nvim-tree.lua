@@ -10,7 +10,7 @@ local M = {
       desc = "NvimTree",
     },
   },
-  config = {
+  opts = {
     update_cwd = true,
     renderer = {
       icons = {

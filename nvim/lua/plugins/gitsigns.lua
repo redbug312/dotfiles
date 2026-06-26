@@ -59,7 +59,7 @@ local M = {
       end,
     },
   },
-  config = {
+  opts = {
     signs = {
       add          = { text = '│' },
       change       = { text = '│' },

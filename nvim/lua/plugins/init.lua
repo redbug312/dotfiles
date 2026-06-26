@@ -41,17 +41,46 @@ return {
   },
 
   {
+    "mceazy2700/antigravity-cli.nvim",
+    dependencies = { 
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      -- terminal = {
+      --   provider = "float", 
+      --   float_opts = {
+      --     width = 0.8,
+      --     height = 0.8,
+      --     border = "rounded",
+      --   },
+      -- },
+    },
+    keys = {
+      { "<leader>a", nil, desc = "AI/Antigravity" },
+      { "<leader>ac", "<cmd>Antigravity<cr>", desc = "Toggle Antigravity" },
+      { "<leader>aa", "<cmd>AntigravityAsk<cr>", desc = "Ask Antigravity", mode = { "n", "v" } },
+      {
+        "<leader>ab",
+        function()
+          require("antigravity-cli.integrations").add_to_context(vim.api.nvim_buf_get_name(0))
+        end,
+        desc = "Add current buffer to Antigravity context",
+      },
+    },
+  },
+
+  {
     dir = vim.fn.stdpath("config").."/cactusbuddy",
     lazy = false,
     priority = 1000,
     dependencies = {
       "tjdevries/colorbuddy.vim",
-      "tjdevries/express_line.nvim",
+      "rebelot/heirline.nvim",
       "nvim-lua/plenary.nvim",
     },
     config = function()
       local colorbuddy = require("colorbuddy")
-      vim.g.cactusbuddy_express_line_enabled = true
+      vim.g.cactusbuddy_heirline_enabled = true
       colorbuddy.colorscheme("cactusbuddy")
     end,
   },

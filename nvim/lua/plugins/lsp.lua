@@ -2,14 +2,24 @@ local M = {
   "neovim/nvim-lspconfig",
   dependencies = {
     "nvim-lua/lsp_extensions.nvim",
-    "lvimuser/lsp-inlayhints.nvim",
+    {
+      "chrisgrieser/nvim-lsp-endhints",
+      config = function()
+        require("lsp-endhints").setup {
+          icons = {
+            type = "■ ",
+            parameter = "■ ",
+            offspec = "■ ",
+            unknown = "■ ",
+          },
+        }
+      end,
+    },
   },
   event = "BufReadPre",
 }
 
 function M.config()
-  local lsp = require('lspconfig')
-  local inlays = require('lsp-inlayhints')
   local windows = require('lspconfig.ui.windows')
   local custom_init = function(client, init)
     if client.server_capabilities then
@@ -17,24 +27,36 @@ function M.config()
       client.server_capabilities.semanticTokensProvider = nil
     end
   end
-  local custom_attach = function(client, bufnr)
-    inlays.on_attach(client, bufnr)
+
+  -- Global LspAttach autocommand to enable inlay hints when supported
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      if client and client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+      end
+    end,
+  })
+
+  local hover_handler = function(err, result, ctx, config)
+    config = config or {}
+    config.border = "single"
+    return vim.lsp.handlers.hover(err, result, ctx, config)
   end
-  local handlers =  {
-    ["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, { border = "single" }
-    )
+
+  local handlers = {
+    ["textDocument/hover"] = hover_handler,
   }
-  inlays.setup {}
-  lsp.rust_analyzer.setup {
+
+  -- Define LSP configurations using Neovim 0.11/0.12+ native API
+  vim.lsp.config('rust_analyzer', {
     on_init = custom_init,
-    on_attach = custom_attach,
     handlers = handlers,
     settings = {
       ["rust-analyzer"] = {
         cargo = {
           extraEnv = {
-            "RUSTFLAGS=\"-A dead_code\"", -- https://stackoverflow.com/a/76095190
+            RUSTFLAGS = "-A dead_code", -- https://stackoverflow.com/a/76095190
           }
         },
         check = {
@@ -50,9 +72,9 @@ function M.config()
         }
       }
     }
-  }
-  lsp.pylsp.setup {
-    on_attach = custom_attach,
+  })
+
+  vim.lsp.config('pylsp', {
     handlers = handlers,
     settings = {
       pylsp = {
@@ -63,18 +85,20 @@ function M.config()
         }
       }
     }
-  }
-  lsp.clangd.setup {
-    on_attach = custom_attach,
+  })
+
+  vim.lsp.config('clangd', {
     handlers = handlers,
-  }
-  lsp.taplo.setup {
-    on_attach = custom_attach,
+  })
+
+  vim.lsp.config('taplo', {
     handlers = handlers,
-  }
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover, { border = "single" }
-  )
+  })
+
+  -- Enable the configured servers
+  vim.lsp.enable({ 'rust_analyzer', 'pylsp', 'clangd', 'taplo' })
+
+  vim.lsp.handlers["textDocument/hover"] = hover_handler
   windows.default_options.border = 'single'
 end
 

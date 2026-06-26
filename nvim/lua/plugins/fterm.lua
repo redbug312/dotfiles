@@ -41,7 +41,7 @@ local M = {
       mode = { "n", "t" }
     },
   },
-  config = {
+  opts = {
     border = 'single',
     dimensions = {
       height = 0.9,
