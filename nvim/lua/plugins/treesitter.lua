@@ -1,50 +1,28 @@
 local M = {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
-  dependencies = {
-    { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
-  },
-  event = "BufReadPost",
-  keys = {
-    {
-      "<leader>c",
-      "<cmd>Inspect<cr>",
-      desc = "Inspect Treesitter Capture / Syntax highlight"
-    },
-    {
-      "<leader>ci",
-      "<cmd>InspectTree<cr>",
-      desc = "Inspect Treesitter AST Tree"
-    }
-  }
+  lazy = false,
+  build = ":TSUpdate",
+}
+
+local languages = {
+  "rust", "python", "c", "cpp", "toml", "lua", "markdown",
+  "markdown_inline", "yaml", "javascript", "typescript", "bash",
+  "html", "gitattributes", "gitcommit", "gitignore", "make"
 }
 
 function M.config()
   -- Setup nvim-treesitter core
-  require("nvim-treesitter").setup()
+  require("nvim-treesitter.config").setup({
+    ensure_installed = languages,
+  })
 
-  -- Setup nvim-treesitter-textobjects separately
-  require("nvim-treesitter-textobjects").setup({
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-      include_surrounding_whitespace = true,
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["<leader>sn"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader>sp"] = "@parameter.inner",
-      },
-    }
+  -- Enable highlighting via autocommand for supported filetypes
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = languages,
+    callback = function()
+      pcall(vim.treesitter.start)
+    end,
   })
 end
 

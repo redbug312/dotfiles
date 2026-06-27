@@ -11,7 +11,7 @@ map('n', '<leader>yw', custom("toggle_wrap"))
 
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>')
 
-map('n', '<leader>a', vim.lsp.buf.code_action)
+map('n', '<leader>c', vim.lsp.buf.code_action)
 map('n', '<leader>l', function() vim.diagnostic.open_float { border = 'single' } end)
 map('n', '<leader>p', ':lua=')
 
@@ -21,7 +21,7 @@ map('n', 'q:', '<nop>')
 map('n', 'q', '<nop>')
 map('n', 'Q', 'q')
 
-map('n', 'K', vim.lsp.buf.hover)  -- better keyword lookup
+map('n', 'K', function() vim.lsp.buf.hover { border = 'single' } end)  -- better keyword lookup
 map('n', 'Y', 'y$')  -- yank until end-of-line, recommended in help-doc
 map('v', '/', '<esc>/\\%V')  -- search within range
 map('n', '-', '$')  -- dollar sign is hard to reach
@@ -69,6 +69,7 @@ map('i', '<leader>*', '<c-g>u<esc>[s1z=`]a<c-g>u')  -- fix last misspelled word
 map('i', '<leader>"', '<c-r>')
 map('i', '<leader>[', '<left>')
 map('i', '<leader>]', '<right>')
+
 
 local M = {}
 
@@ -120,5 +121,79 @@ function M.next_diagnostic()
     severity = (next(errors) ~= nil) and diag.severity.ERROR or diag.severity.WARN
   }
 end
+
+-- NATIVE FLOATING TERMINAL
+
+local term_buf = nil
+local term_win = nil
+
+local function get_dimensions()
+  local stats = vim.api.nvim_list_uis()[1]
+  local width = math.floor(stats.width * 0.8)
+  local height = math.floor(stats.height * 0.8)
+  local row = math.floor((stats.height - height) / 2)
+  local col = math.floor((stats.width - width) / 2)
+  return width, height, row, col
+end
+
+local function toggle_terminal()
+  if term_win and vim.api.nvim_win_is_valid(term_win) then
+    vim.api.nvim_win_close(term_win, true)
+    term_win = nil
+    return
+  end
+
+  local width, height, row, col = get_dimensions()
+
+  if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
+    term_buf = vim.api.nvim_create_buf(false, true)
+  end
+
+  term_win = vim.api.nvim_open_win(term_buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "single",
+  })
+
+  if vim.bo[term_buf].buftype ~= "terminal" then
+    vim.fn.termopen(vim.o.shell, { env = { LD_LIBRARY_PATH = "" } })
+  end
+  vim.cmd("startinsert")
+end
+
+local function run_in_floating_terminal(cmd)
+  local width, height, row, col = get_dimensions()
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "single",
+  })
+
+  vim.fn.termopen(cmd, { env = { LD_LIBRARY_PATH = "" } })
+
+  vim.keymap.set('n', 'q', function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end, { buffer = buf, silent = true })
+
+  vim.cmd("startinsert")
+end
+
+map({ 'n', 't' }, '<f9>', toggle_terminal)
+map('n', '<f5>', function() run_in_floating_terminal("make build") end)
+map('n', '<f6>', function() run_in_floating_terminal("make start") end)
+map('n', '<f7>', function() run_in_floating_terminal("make debug") end)
+map('n', '<f8>', function() run_in_floating_terminal("make check") end)
 
 return M

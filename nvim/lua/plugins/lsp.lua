@@ -1,7 +1,6 @@
 local M = {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "nvim-lua/lsp_extensions.nvim",
     {
       "chrisgrieser/nvim-lsp-endhints",
       config = function()
@@ -20,6 +19,12 @@ local M = {
 }
 
 function M.config()
+  vim.diagnostic.config({
+    virtual_text = {
+      severity = { min = vim.diagnostic.severity.WARN },
+    },
+  })
+
   local windows = require('lspconfig.ui.windows')
   local custom_init = function(client, init)
     if client.server_capabilities then
@@ -28,11 +33,12 @@ function M.config()
     end
   end
 
-  -- Global LspAttach autocommand to enable inlay hints when supported
+  -- Global LspAttach autocommand to enable inlay hints and native completion when supported
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client and client.server_capabilities.inlayHintProvider then
+      if not client then return end
+      if client.server_capabilities.inlayHintProvider then
         vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
       end
     end,

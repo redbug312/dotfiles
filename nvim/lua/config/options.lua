@@ -6,7 +6,8 @@ vim.opt.foldlevel = 99
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.path:append('**')
 vim.opt.splitright = true
-vim.opt.completeopt = 'menuone,noinsert,noselect'
+vim.opt.completeopt = 'menu,menuone,popup'
+vim.o.autocomplete = false
 vim.opt.shortmess:append('c')
 vim.opt.backspace:append('nostop')
 vim.opt.mouse = ''
@@ -42,3 +43,17 @@ vim.opt.background = 'dark'
 vim.opt.showmode = false
 vim.opt.scrolloff = 3
 vim.opt.showtabline = 0
+
+-- Disable autocomplete in Telescope prompt
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "TelescopePrompt",
+  callback = function()
+    vim.opt_local.autocomplete = false
+  end,
+})
+
+-- Force Neovim terminal/shell to run as a login shell to inherit system profiles
+if not string.find(vim.o.shell, "-l") then
+  vim.o.shell = vim.o.shell .. " -l"
+end
+

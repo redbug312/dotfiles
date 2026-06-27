@@ -41,3 +41,5 @@
   "!" @debug.delimiter
   _ @function.call
   (#eq? @debug "dbg")) @debug
+
+(self) @self
