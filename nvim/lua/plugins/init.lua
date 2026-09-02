@@ -11,26 +11,6 @@ return {
   { "wakatime/vim-wakatime", event = "BufReadPre" },
 
   {
-    "mceazy2700/antigravity-cli.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = {},
-    keys = {
-      { "<leader>a", nil, desc = "AI/Antigravity" },
-      { "<leader>ac", "<cmd>Antigravity<cr>", desc = "Toggle Antigravity" },
-      { "<leader>aa", "<cmd>AntigravityAsk<cr>", desc = "Ask Antigravity", mode = { "n", "v" } },
-      {
-        "<leader>ab",
-        function()
-          require("antigravity-cli.integrations").add_to_context(vim.api.nvim_buf_get_name(0))
-        end,
-        desc = "Add current buffer to Antigravity context",
-      },
-    },
-  },
-
-  {
     dir = vim.fn.stdpath("config").."/cactusbuddy",
     lazy = false,
     priority = 1000,
@@ -41,5 +21,39 @@ return {
     config = function()
       vim.cmd("colorscheme cactusbuddy")
     end,
+  },
+
+  {
+    "folke/sidekick.nvim",
+    opts = {
+      nes = {
+        enabled = true,
+      },
+      cli = {
+        tools = {
+          copilot = {},
+        },
+      },
+    },
+    keys = {
+      {
+        "<tab>",
+        function()
+          if not require("sidekick").nes_jump_or_apply() then
+            return "<Tab>"
+          end
+        end,
+        mode = { "n" },
+        expr = true,
+        desc = "Sidekick NES Jump/Apply",
+      },
+      {
+        "<leader>s",
+        function()
+          require("sidekick.cli").toggle({ name = "copilot", focus = true })
+        end,
+        desc = "Sidekick Toggle Copilot CLI",
+      },
+    },
   },
 }

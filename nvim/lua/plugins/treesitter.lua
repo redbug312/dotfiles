@@ -8,7 +8,8 @@ local M = {
 local languages = {
   "rust", "python", "c", "cpp", "toml", "lua", "markdown",
   "markdown_inline", "yaml", "javascript", "typescript", "bash",
-  "html", "gitattributes", "gitcommit", "gitignore", "make"
+  "html", "gitattributes", "gitcommit", "gitignore", "make",
+  "vim", "vimdoc"
 }
 
 function M.config()

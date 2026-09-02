@@ -1,7 +1,11 @@
 ; extends
 
 ("text" @text.todo
- (#any-of? @text.todo "TODO"))
+ (#eq? @text.todo "TODO"))
+
+((tag
+  (name) @text.todo)
+  (#eq? @text.todo "TODO"))
 
 ("text" @text.danger
  (#any-of? @text.danger "SAFETY"))

@@ -25,7 +25,6 @@ function M.config()
     },
   })
 
-  local windows = require('lspconfig.ui.windows')
   local custom_init = function(client, init)
     if client.server_capabilities then
       client.server_capabilities.documentFormattingProvider = nil
@@ -44,20 +43,9 @@ function M.config()
     end,
   })
 
-  local hover_handler = function(err, result, ctx, config)
-    config = config or {}
-    config.border = "single"
-    return vim.lsp.handlers.hover(err, result, ctx, config)
-  end
-
-  local handlers = {
-    ["textDocument/hover"] = hover_handler,
-  }
-
   -- Define LSP configurations using Neovim 0.11/0.12+ native API
   vim.lsp.config('rust_analyzer', {
     on_init = custom_init,
-    handlers = handlers,
     settings = {
       ["rust-analyzer"] = {
         cargo = {
@@ -81,7 +69,6 @@ function M.config()
   })
 
   vim.lsp.config('pylsp', {
-    handlers = handlers,
     settings = {
       pylsp = {
         plugins = {
@@ -93,19 +80,12 @@ function M.config()
     }
   })
 
-  vim.lsp.config('clangd', {
-    handlers = handlers,
-  })
+  vim.lsp.config('clangd', {})
 
-  vim.lsp.config('taplo', {
-    handlers = handlers,
-  })
+  vim.lsp.config('taplo', {})
 
   -- Enable the configured servers
   vim.lsp.enable({ 'rust_analyzer', 'pylsp', 'clangd', 'taplo' })
-
-  vim.lsp.handlers["textDocument/hover"] = hover_handler
-  windows.default_options.border = 'single'
 end
 
 return M

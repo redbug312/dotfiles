@@ -13,15 +13,29 @@ local M = {
     {
       "<leader>hs",
       function()
-        require("mini.diff").do_hunk("stage")
+        local mode = vim.api.nvim_get_mode().mode
+        if mode:find("[vV\22]") then
+          vim.cmd("normal! \27")
+          require("mini.diff").do_hunks(0, "apply", { line_start = vim.fn.line("'<"), line_end = vim.fn.line("'>") })
+        else
+          require("mini.diff").do_hunks(0, "apply", { line_start = vim.fn.line("."), line_end = vim.fn.line(".") })
+        end
       end,
+      mode = { "n", "v" },
       desc = "Stage hunk",
     },
     {
       "<leader>hr",
       function()
-        require("mini.diff").do_hunk("reset")
+        local mode = vim.api.nvim_get_mode().mode
+        if mode:find("[vV\22]") then
+          vim.cmd("normal! \27")
+          require("mini.diff").do_hunks(0, "reset", { line_start = vim.fn.line("'<"), line_end = vim.fn.line("'>") })
+        else
+          require("mini.diff").do_hunks(0, "reset", { line_start = vim.fn.line("."), line_end = vim.fn.line(".") })
+        end
       end,
+      mode = { "n", "v" },
       desc = "Reset hunk",
     },
     {

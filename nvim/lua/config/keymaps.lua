@@ -11,7 +11,8 @@ map('n', '<leader>yw', custom("toggle_wrap"))
 
 map('n', '<f10>', '<cmd>let @+ = expand("%:p")<cr><cmd>echo "Copied: ".expand("%:p")<cr>')
 
-map('n', '<leader>c', vim.lsp.buf.code_action)
+map({ 'n', 'v' }, '<leader>c', vim.lsp.buf.code_action)
+map({ 'n', 'v' }, 'gra', vim.lsp.buf.code_action)
 map('n', '<leader>l', function() vim.diagnostic.open_float { border = 'single' } end)
 map('n', '<leader>p', ':lua=')
 
@@ -21,7 +22,7 @@ map('n', 'q:', '<nop>')
 map('n', 'q', '<nop>')
 map('n', 'Q', 'q')
 
-map('n', 'K', function() vim.lsp.buf.hover { border = 'single' } end)  -- better keyword lookup
+map('n', 'K', vim.lsp.buf.hover)  -- better keyword lookup
 map('n', 'Y', 'y$')  -- yank until end-of-line, recommended in help-doc
 map('v', '/', '<esc>/\\%V')  -- search within range
 map('n', '-', '$')  -- dollar sign is hard to reach
